@@ -52,6 +52,10 @@ void setup()
    
   // enable skeleton generation for all joints
   context.enableUser();
+  
+  // Enable hand tracking and start a gesture
+  context.enableHand();
+  context.startGesture(SimpleOpenNI.GESTURE_WAVE);
  
   background(200,0,0);
 
@@ -167,16 +171,42 @@ void onVisibleUser(SimpleOpenNI curContext, int userId)
   //println("onVisibleUser - userId: " + userId);
 }
 
+// -----------------------------------------------------------------
+// hand events
 
-void keyPressed()
+void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
-  switch(key)
-  {
-  case ' ':
-    context.setMirror(!context.mirror());
-    break;
-  }
-}  
+  println("onNewHand - handId: " + handId + ", pos: " + pos);
+}
+
+void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
+{
+  boolean currentPos;
+     currentPos = isOnTopOfLine(leftHandPos.x,leftHandPos.y,hipPos.x,hipPos.y,rightHandPos.x,rightHandPos.y );
+     chordPos = hipPos.dist(leftHandPos);
+     if(currentPos != prevPos){
+       println("distance:"+chordPos);
+       playGuitar();
+       prevPos = currentPos;
+     }
+  
+}
+
+void onLostHand(SimpleOpenNI curContext,int handId)
+{
+  println("onLostHand - handId: " + handId);
+}
+
+// -----------------------------------------------------------------
+// gesture events
+
+void onCompletedGesture(SimpleOpenNI curContext,int gestureType, PVector pos)
+{
+  println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
+  
+  int handId = context.startTrackingHand(pos);
+  println("hand stracked: " + handId);
+}
 
 boolean isOnTopOfLine(float x1,float y1,float x2, float y2, float xp, float yp){
   float xl;
