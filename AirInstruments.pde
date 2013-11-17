@@ -157,6 +157,7 @@ void onNewUser(SimpleOpenNI curContext, int userId)
 {
   println("onNewUser - userId: " + userId);
   println("\tstart tracking skeleton");
+  // Print to screen to inform user
   
   curContext.startTrackingSkeleton(userId);
 }
@@ -164,11 +165,13 @@ void onNewUser(SimpleOpenNI curContext, int userId)
 void onLostUser(SimpleOpenNI curContext, int userId)
 {
   println("onLostUser - userId: " + userId);
+  // Print to screen to inform user
 }
 
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
-  //println("onVisibleUser - userId: " + userId);
+  println("onVisibleUser - userId: " + userId);
+  // Draw the menu above their head ??
 }
 
 // -----------------------------------------------------------------
@@ -177,10 +180,45 @@ void onVisibleUser(SimpleOpenNI curContext, int userId)
 void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
   println("onNewHand - handId: " + handId + ", pos: " + pos);
+  // Figure out who's hand it is
+  float minDist = 500;
+  int bestUser = -1;
+  int[] userList = context.getUsers();
+  // For each user, if we're tracking them, compare their hands to this point
+  // Keep track of which user has the best match
+  for(int i=0;i<userList.length;i++)
+  {
+    if(context.isTrackingSkeleton(userList[i]))
+    {
+      PVector LHand = new PVector();
+      PVector RHand = new PVector();
+      context.getJointPositionSkeleton(userList[i], context.SKEL_LEFT_HAND, LHand);
+      context.getJointPositionSkeleton(userList[i], context.SKEL_RIGHT_HAND, RHand);
+      float LDist = pos.dist(LHand);
+      float RDist = pos.dist(RHand); 
+     if (LDist < minDist) 
+     {
+       bestUser = i;
+       minDist = LDist;
+     }
+     if (RDist < minDist)
+     {
+       bestUser = i;
+       minDist = RDist;
+     }
+    }
+  }
+  if ( bestUser = -1 ) {
+    println("Could not match hand to a user");
+  } else {
+    println("Hand " + handId + " belonds to user " + bestUser);
+    // TODO: Record that in some data structure...
+  }
 }
 
 void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
+  // TODO: Get the userId that this hand belongs to, rewrite to do detection for that user's info
   boolean currentPos;
      currentPos = isOnTopOfLine(leftHandPos.x,leftHandPos.y,hipPos.x,hipPos.y,rightHandPos.x,rightHandPos.y );
      chordPos = hipPos.dist(leftHandPos);
