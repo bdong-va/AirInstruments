@@ -15,6 +15,7 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(255,0,255),
                                      color(0,255,255)
                                    };
+
 PVector com = new PVector();                                   
 PVector com2d = new PVector();                                   
 PVector leftHandPos = new PVector();
@@ -88,7 +89,7 @@ void draw()
      currentPos = isOnTopOfLine(leftHandPos.x,leftHandPos.y,hipPos.x,hipPos.y,rightHandPos.x,rightHandPos.y );
      chordPos = hipPos.dist(leftHandPos);
      if(currentPos != prevPos){
-       println("distance:"+chordPos);
+       println("distance: "+chordPos+"   userHeight: "+kinect.userHeight());
        playGuitar(chordPos);
        prevPos = currentPos;
      }

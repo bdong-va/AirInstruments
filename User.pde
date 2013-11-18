@@ -1,18 +1,18 @@
 class User {
-
+  
  // Attributes
  // userID
  // handID(s)?
- // Instrument
+ Instrument instrum;
  
  // Methods
  // ----------------------------------------
  // Set the user's instrument
  void setInstrument(String instrument) {
    if (instrument == "bass") {
-     this.instrument = new BassGuitar();
+     this.instrum = new BassGuitar();
    } else if (instrument == "lead") {
-     this.instrument = new LeadGuitar();
+     this.instrum = new LeadGuitar();
    }
  }
  
