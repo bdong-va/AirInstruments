@@ -1,17 +1,13 @@
 /* --------------------------------------------------------------------------
- * SimpleOpenNI User Test
+ * AirInstruments
  * --------------------------------------------------------------------------
- * Processing Wrapper for the OpenNI/Kinect 2 library
- * http://code.google.com/p/simple-openni
- * --------------------------------------------------------------------------
- * prog:  Max Rheiner / Interaction Design / Zhdk / http://iad.zhdk.ch/
- * date:  12/12/2012 (m/d/y)
+ * Authors: Jason Prokop and Bo Dong
  * ----------------------------------------------------------------------------
  */
 import ddf.minim.*;
 import SimpleOpenNI.*;
 
-SimpleOpenNI  context;
+SimpleOpenNI  kinect;
 color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,0),
                                      color(0,0,255),
@@ -37,8 +33,8 @@ void setup()
 {
   size(640,480);
   
-  context = new SimpleOpenNI(this);
-  if(context.isInit() == false)
+  kinect = new SimpleOpenNI(this);
+  if(kinect.isInit() == false)
   {
      println("Can't init SimpleOpenNI, maybe the camera is not connected!"); 
      exit();
@@ -48,14 +44,16 @@ void setup()
   minim = new Minim(this);
   
   // enable depthMap generation 
-  context.enableDepth();
+  kinect.enableDepth();
    
   // enable skeleton generation for all joints
-  context.enableUser();
+  kinect.enableUser();
+  
+  kinect.setMirror(false);
   
   // Enable hand tracking and start a gesture
-  context.enableHand();
-  context.startGesture(SimpleOpenNI.GESTURE_WAVE);
+  kinect.enableHand();
+  kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
  
   background(200,0,0);
 
@@ -67,31 +65,31 @@ void setup()
 void draw()
 {
   // update the cam
-  context.update();
+  kinect.update();
   
   // draw depthImageMap
-  //image(context.depthImage(),0,0);
-  image(context.userImage(),0,0);
+  //image(kinect.depthImage(),0,0);
+  image(kinect.userImage(),0,0);
   
   // draw the skeleton if it's available
-  int[] userList = context.getUsers();
+  int[] userList = kinect.getUsers();
   for(int i=0;i<userList.length;i++)
   {
-    if(context.isTrackingSkeleton(userList[i]))
+    if(kinect.isTrackingSkeleton(userList[i]))
     {
       stroke(userClr[ (userList[i] - 1) % userClr.length ] );
       drawSkeleton(userList[i]);
       
       
-     context.getJointPositionSkeleton(userList[i], context.SKEL_LEFT_HAND, leftHandPos);
-     context.getJointPositionSkeleton(userList[i], context.SKEL_RIGHT_HAND, rightHandPos);
-     context.getJointPositionSkeleton(userList[i], context.SKEL_RIGHT_HIP, hipPos);
+     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, leftHandPos);
+     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, rightHandPos);
+     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, hipPos);
      boolean currentPos;
      currentPos = isOnTopOfLine(leftHandPos.x,leftHandPos.y,hipPos.x,hipPos.y,rightHandPos.x,rightHandPos.y );
      chordPos = hipPos.dist(leftHandPos);
      if(currentPos != prevPos){
        println("distance:"+chordPos);
-       playGuitar();
+       playGuitar(chordPos);
        prevPos = currentPos;
      }
      
@@ -99,9 +97,9 @@ void draw()
     }      
       
     // draw the center of mass
-    if(context.getCoM(userList[i],com))
+    if(kinect.getCoM(userList[i],com))
     {
-      context.convertRealWorldToProjective(com,com2d);
+      kinect.convertRealWorldToProjective(com,com2d);
       stroke(100,255,0);
       strokeWeight(1);
       beginShape(LINES);
@@ -124,30 +122,30 @@ void drawSkeleton(int userId)
   // to get the 3d joint data
   /*
   PVector jointPos = new PVector();
-  context.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_NECK,jointPos);
+  kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_NECK,jointPos);
   println(jointPos);
   */
   
-  context.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
-  context.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_LEFT_ELBOW);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_ELBOW, SimpleOpenNI.SKEL_LEFT_HAND);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_LEFT_ELBOW);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_ELBOW, SimpleOpenNI.SKEL_LEFT_HAND);
 
-  context.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_RIGHT_SHOULDER);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_RIGHT_ELBOW);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_ELBOW, SimpleOpenNI.SKEL_RIGHT_HAND);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_RIGHT_SHOULDER);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_RIGHT_ELBOW);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_ELBOW, SimpleOpenNI.SKEL_RIGHT_HAND);
 
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_SHOULDER, SimpleOpenNI.SKEL_TORSO);
 
-  context.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_LEFT_HIP);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_HIP, SimpleOpenNI.SKEL_LEFT_KNEE);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_KNEE, SimpleOpenNI.SKEL_LEFT_FOOT);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_LEFT_HIP);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_HIP, SimpleOpenNI.SKEL_LEFT_KNEE);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_LEFT_KNEE, SimpleOpenNI.SKEL_LEFT_FOOT);
 
-  context.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_RIGHT_HIP);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_RIGHT_KNEE);
-  context.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_KNEE, SimpleOpenNI.SKEL_RIGHT_FOOT);  
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_RIGHT_HIP);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_RIGHT_KNEE);
+  kinect.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_KNEE, SimpleOpenNI.SKEL_RIGHT_FOOT);  
 }
 
 // -----------------------------------------------------------------
@@ -170,7 +168,7 @@ void onLostUser(SimpleOpenNI curContext, int userId)
 
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
-  println("onVisibleUser - userId: " + userId);
+  // println("onVisibleUser - userId: " + userId);
   // Draw the menu above their head ??
 }
 
@@ -181,19 +179,19 @@ void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
   println("onNewHand - handId: " + handId + ", pos: " + pos);
   // Figure out who's hand it is
-  float minDist = 500;
+  float minDist = 1500;
   int bestUser = -1;
-  int[] userList = context.getUsers();
+  int[] userList = kinect.getUsers();
   // For each user, if we're tracking them, compare their hands to this point
   // Keep track of which user has the best match
   for(int i=0;i<userList.length;i++)
   {
-    if(context.isTrackingSkeleton(userList[i]))
+    if(kinect.isTrackingSkeleton(userList[i]))
     {
       PVector LHand = new PVector();
       PVector RHand = new PVector();
-      context.getJointPositionSkeleton(userList[i], context.SKEL_LEFT_HAND, LHand);
-      context.getJointPositionSkeleton(userList[i], context.SKEL_RIGHT_HAND, RHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       float LDist = pos.dist(LHand);
       float RDist = pos.dist(RHand); 
      if (LDist < minDist) 
@@ -208,7 +206,7 @@ void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
      }
     }
   }
-  if ( bestUser = -1 ) {
+  if ( bestUser == -1 ) {
     println("Could not match hand to a user");
   } else {
     println("Hand " + handId + " belonds to user " + bestUser);
@@ -224,7 +222,7 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
      chordPos = hipPos.dist(leftHandPos);
      if(currentPos != prevPos){
        println("distance:"+chordPos);
-       playGuitar();
+       playGuitar(chordPos);
        prevPos = currentPos;
      }
   
@@ -242,31 +240,33 @@ void onCompletedGesture(SimpleOpenNI curContext,int gestureType, PVector pos)
 {
   println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
   
-  int handId = context.startTrackingHand(pos);
-  println("hand stracked: " + handId);
+  int handId = curContext.startTrackingHand(pos);
+  println("hand tracked: " + handId);
 }
 
+// Detect if a point is on top of a line defined by two other points
+// Return true if it is above or on, false if not
 boolean isOnTopOfLine(float x1,float y1,float x2, float y2, float xp, float yp){
   float xl;
   xl = (((x1-x2)*(yp-y2))/(y1-y2))+x2;
   return (xp >= xl);
-
 }
-void playGuitar(){
-  
-  if(chordPos<=500 && chordPos>200){
+
+// Play the guitar with supplied distance paramter
+void playGuitar(float chord){
+  if(chord<=500 && chord>200){
     audio = minim.loadFile(chord1,512);
         audio.play();
-  }else if(chordPos<=600 && chordPos>500){
+  }else if(chord<=600 && chord>500){
     audio = minim.loadFile(chord2,512);
         audio.play();
-  }else if(chordPos<=700 && chordPos>600){
+  }else if(chord<=700 && chord>600){
     audio = minim.loadFile(chord3,512);
         audio.play(); 
-  }else if(chordPos<=800 && chordPos>700){
+  }else if(chord<=800 && chord>700){
     audio = minim.loadFile(chord4,512);
         audio.play();
-  }else if(chordPos<=900 && chordPos>800){
+  }else if(chord<=900 && chord>800){
     audio = minim.loadFile(chord5,512);
         audio.play();
   }
