@@ -8,7 +8,7 @@ class BassGuitar implements Instrument{
   // Methods
   // ----------------------------------------
   // Play the guitar with supplied distance parameter
-  void playBassGuitar(float chord){
+  void playGuitar(float chord){
     // Select the chord to play
     if(chord<=500 && chord>200){
       audio = minim.loadFile(chord1,512);

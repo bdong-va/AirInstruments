@@ -1,3 +1,4 @@
-interface Instrument {
+public interface Instrument {
 
+  void playGuitar(float chord);
 }
