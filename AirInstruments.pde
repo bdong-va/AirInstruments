@@ -38,7 +38,7 @@ void setup()
   
   // enable depthMap and RGB generation from Kinect
   kinect.enableDepth();
-  
+  kinect.enableRGB();
    
   // enable skeleton generation for all joints
   kinect.enableUser();
