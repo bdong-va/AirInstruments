@@ -18,22 +18,6 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,255)
                                    };
 
-// Example variable for center of mass -- cleanup
-//PVector com = new PVector();                                   
-//PVector com2d = new PVector(); 
-// Player variables, moved to User
-//PVector leftHandPos = new PVector();
-//PVector rightHandPos = new PVector();
-//PVector hipPos = new PVector();
-
-//boolean prevPos = false;
-//float chordPos;
-// Guitar sounds, moved to guitar classes
-//String chord1= "guitarAm.wav";
-//String chord2= "guitarC.wav";
-//String chord3= "guitarDm.wav";
-//String chord4= "guitarE.wav";
-//String chord5= "guitarG.wav";
 AudioPlayer audio;
 Minim minim;
 
@@ -98,57 +82,14 @@ void draw()
     {
       // Draw the skeleton, dev only
       // stroke(userClr[ (userList[i] - 1) % userClr.length ] );
-      // drawSkeleton(userList[i]);
-      
-      
-     /* Old code, moved to hand events
-     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, leftHandPos);
-     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, rightHandPos);
-     kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, hipPos);
-     boolean currentPos;
-     currentPos = isOnTopOfLine(leftHandPos.x,leftHandPos.y,hipPos.x,hipPos.y,rightHandPos.x,rightHandPos.y );
-     chordPos = hipPos.dist(leftHandPos);
-     if(currentPos != prevPos){
-       println("distance: "+chordPos+"   userHeight: "+kinect.userHeight());
-       playGuitar(chordPos);
-       prevPos = currentPos;
-     }
-     */
-     
-      
+      // drawSkeleton(userList[i]); 
     }      
-      
-    /* Old example code for drawing user's CoM
-    if(kinect.getCoM(userList[i],com))
-    {
-      kinect.convertRealWorldToProjective(com,com2d);
-      stroke(100,255,0);
-      strokeWeight(1);
-      beginShape(LINES);
-        vertex(com2d.x,com2d.y - 5);
-        vertex(com2d.x,com2d.y + 5);
-
-        vertex(com2d.x - 5,com2d.y);
-        vertex(com2d.x + 5,com2d.y);
-      endShape();
-      
-      fill(0,255,100);
-      text(Integer.toString(userList[i]),com2d.x,com2d.y);
-    }
-    */
   }    
 }
 
 // draw the skeleton with the selected joints
 void drawSkeleton(int userId)
-{
-  // to get the 3d joint data
-  /*
-  PVector jointPos = new PVector();
-  kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_NECK,jointPos);
-  println(jointPos);
-  */
-  
+{  
   kinect.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
   kinect.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
@@ -236,9 +177,9 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
     // Try to find user again?
   } else {
     // Do update for that user... different for different instruments/states
-    if ( users[userID].instrument == null ) {
+    if ( users[userID].getInstrument().equals("none") ) {
       // Do menus / instrument selection
-    } else if (users[userID].instrument.equals("lead") || users[userID].instrument.equals("bass")) {
+    } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {
       // Try to play the guitar
       
       // Create the vectors and fill them with data from kinect
@@ -305,28 +246,6 @@ boolean isOnTopOfLine(float x1,float y1,float x2, float y2, float xp, float yp){
   xl = (((x1-x2)*(yp-y2))/(y1-y2))+x2;
   return (xp >= xl);
 }
-
-/* Old code, moved to guitar classes
-// Play the guitar with supplied distance paramter
-void playGuitar(float chord){
-  if(chord<=500 && chord>200){
-    audio = minim.loadFile(chord1,512);
-        audio.play();
-  }else if(chord<=600 && chord>500){
-    audio = minim.loadFile(chord2,512);
-        audio.play();
-  }else if(chord<=700 && chord>600){
-    audio = minim.loadFile(chord3,512);
-        audio.play(); 
-  }else if(chord<=800 && chord>700){
-    audio = minim.loadFile(chord4,512);
-        audio.play();
-  }else if(chord<=900 && chord>800){
-    audio = minim.loadFile(chord5,512);
-        audio.play();
-  }
-}
-*/
 
 // Determine what userID the hand belongs to  
 int determineHand(PVector handPos) {
