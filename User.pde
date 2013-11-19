@@ -11,9 +11,9 @@ class User {
  // Set the user's instrument
  void setInstrument(String instrument) {
    if (instrument.equals("bass")) {
-     this.instrum = new BassGuitar();
+     this.instrument = new BassGuitar();
    } else if (instrument.equals("lead")) {
-     this.instrum = new LeadGuitar();
+     this.instrument = new LeadGuitar();
    }
  }
  
@@ -21,8 +21,10 @@ class User {
  String getInstrument() {
    if (instrument instanceof LeadGuitar) {
      return "lead";
-   } elseif (instrument instanceof bassGuitar) {
+   } else if (instrument instanceof BassGuitar) {
      return "bass";
+   } else {
+      return null;   
    }
  }
  
