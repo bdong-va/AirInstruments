@@ -1,9 +1,16 @@
 class User {
   
  // Attributes
- int UserID;
+ int userID;
  int LHandID, RHandID;
  Instrument instrument;
+ boolean prevPos, curPos; // For detecting crossing guitar string
+ 
+ // Constructor
+ User (int ID) {
+   userID = ID;
+   
+ }
  
  // Methods
  // ----------------------------------------
@@ -24,7 +31,11 @@ class User {
    } else if (instrument instanceof BassGuitar) {
      return "bass";
    } else {
+<<<<<<< HEAD
       return null;   
+=======
+     return "none";
+>>>>>>> origin/Restructuring
    }
  }
  
