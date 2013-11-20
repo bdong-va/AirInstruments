@@ -12,7 +12,7 @@ class User {
    userID = ID;
    LHandID = 0;
    RHandID = 0;
-   instrument = null;
+   instrument = new LeadGuitar();
    prevPos = false;
    curPos = false;   
    lastPlayed = 0;
