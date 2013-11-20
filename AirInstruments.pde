@@ -101,9 +101,7 @@ void draw()
        PVector Head2D = new PVector();
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
       kinect.convertRealWorldToProjective(Head,Head2D);         
-      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
-      button[i].display();
-      button[i].setUser(userList[i]);
+      
       
       //check button for if been clicked.
       PVector RHand = new PVector();
@@ -111,8 +109,6 @@ void draw()
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       kinect.convertRealWorldToProjective(RHand,RHand2D);
       
-      strokeWeight(3);
-      rect((int)RHand2D.x,(int)RHand2D.y, 20,20);
       
       
       button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
@@ -219,6 +215,9 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
   // Get the user ID for this hand
   int userID = getUserFromHandID(handId);
+  //draw a sign for a tracked hand.
+  strokeWeight(3);
+  rect(pos.x, pos.y, 20,20);
   
   if (userID == 0) {
     // Handle no user case
