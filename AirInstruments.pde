@@ -48,7 +48,7 @@ void setup()
   // Set the mirror on for practicing (add this functionality?)
   // Detect a more complex gesture for mirroring the video?
   
-  // Enable hand tracking and start the hand raise gesture
+  // Enable hand tracking and start the wave gesture
   kinect.enableHand();
   kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
   
@@ -71,8 +71,8 @@ void draw()
   
   // Draw the screens
   //image(kinect.depthImage(),0,0);
-  image(kinect.userImage(),0,0);
-  //image(kinect.rgbImage(), 0, 0);
+  //image(kinect.userImage(),0,0);
+  image(kinect.rgbImage(), 0, 0);
   
   // Get the user id list and perform updates for each that are tracked
   int[] userList = kinect.getUsers();
@@ -82,7 +82,26 @@ void draw()
     {
       // Draw the skeleton, dev only
       stroke(userClr[ 5 ] );
-      drawSkeleton(userList[i]); 
+      //drawSkeleton(userList[i]); 
+      
+      // Draw guitar
+      PVector LHand = new PVector();
+      PVector Hip = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
+      float chord = Hip.dist(LHand);
+      if(chord<=500 && chord>200){
+        strokeWeight(2);
+      }else if(chord<=600 && chord>500){
+        strokeWeight(3);
+      }else if(chord<=700 && chord>600){
+        strokeWeight(4);
+      }else if(chord<=800 && chord>700){
+        strokeWeight(5);
+      }else if(chord<=900 && chord>800){
+        strokeWeight(6);
+      }
+      kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
     }      
   }    
 }
