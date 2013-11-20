@@ -12,7 +12,7 @@ class User {
    userID = ID;
    LHandID = 0;
    RHandID = 0;
-   instrument = null;
+   instrument = new LeadGuitar();
    prevPos = false;
    curPos = false;   
    lastPlayed = 0;
@@ -37,7 +37,11 @@ class User {
    } else if (instrument instanceof BassGuitar) {
      return "bass";
    } else {
+<<<<<<< HEAD
      return "none";
+=======
+      return null;   
+>>>>>>> refs/heads/buttonWork2
    }
  }
  

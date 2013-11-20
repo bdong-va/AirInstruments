@@ -17,7 +17,7 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(255,0,255),
                                      color(0,255,255)
                                    };
-floatingButton[]  button = new floatingButton[4];
+instrumentChoose[]  button = new instrumentChoose[4];
 AudioPlayer audio;
 Minim minim;
 
@@ -35,7 +35,8 @@ void setup()
   }
   //set button group for users.
   for(int i=0;i<4;i++){
-    button[i]= new floatingButton(0,0,50,"Guitar");
+    String[] InstrumentList = {"lead","bass"};
+    button[i]= new instrumentChoose(0,0,50,InstrumentList);
   }
   // Create Minim object
   minim = new Minim(this);
@@ -102,12 +103,18 @@ void draw()
       kinect.convertRealWorldToProjective(Head,Head2D);         
       button[i].setPosition((int)Head2D.x, (int)Head2D.y-70); 
       button[i].display();
+      button[i].setUser(userList[i]);
       
       //check button for if been clicked.
       PVector RHand = new PVector();
       PVector RHand2D = new PVector();
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       kinect.convertRealWorldToProjective(RHand,RHand2D);
+      
+      strokeWeight(3);
+      rect((int)RHand2D.x,(int)RHand2D.y, 20,20);
+      
+      
       button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
       
       
@@ -223,7 +230,10 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
       return;
     }
     // Do update for that user... different for different instruments/states
+<<<<<<< HEAD
     users[userID].setInstrument("bass");
+=======
+>>>>>>> refs/heads/buttonWork2
     if ( users[userID].getInstrument().equals("none") ) {
       // Do menus / instrument selection
     } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {
