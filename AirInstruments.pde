@@ -90,16 +90,24 @@ void draw()
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
       float chord = Hip.dist(LHand);
+      
+      // Adjust the weight of the string depending on its length
       if(chord<=500 && chord>200){
         strokeWeight(2);
       }else if(chord<=600 && chord>500){
-        strokeWeight(3);
-      }else if(chord<=700 && chord>600){
         strokeWeight(4);
-      }else if(chord<=800 && chord>700){
-        strokeWeight(5);
-      }else if(chord<=900 && chord>800){
+      }else if(chord<=700 && chord>600){
         strokeWeight(6);
+      }else if(chord<=800 && chord>700){
+        strokeWeight(8);
+      }else if(chord<=900 && chord>800){
+        strokeWeight(10);
+      }
+      // Make the string green if it was recently played; black if not
+      if ( (millis() - users[userList[i]].lastPlayed) < 200 ) {
+        stroke(0, 255, 0);
+      } else {
+        stroke(0, 0, 0);
       }
       kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
     }      
