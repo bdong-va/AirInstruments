@@ -37,11 +37,7 @@ class User {
    } else if (instrument instanceof BassGuitar) {
      return "bass";
    } else {
-<<<<<<< HEAD
-      return null;   
-=======
      return "none";
->>>>>>> origin/Restructuring
    }
  }
  

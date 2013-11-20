@@ -223,7 +223,7 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
       return;
     }
     // Do update for that user... different for different instruments/states
-    users[userID].setInstrument("lead");
+    users[userID].setInstrument("bass");
     if ( users[userID].getInstrument().equals("none") ) {
       // Do menus / instrument selection
     } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {

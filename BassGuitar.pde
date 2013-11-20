@@ -1,9 +1,10 @@
 class BassGuitar implements Instrument{
-  String chord1= "guitarAm.wav";
-  String chord2= "guitarC.wav";
-  String chord3= "guitarDm.wav";
-  String chord4= "guitarE.wav";
-  String chord5= "guitarG.wav";
+  
+  String chord1= "bass-1.wav";
+  String chord2= "bass-2.wav";
+  String chord3= "bass-3.wav";
+  String chord4= "bass-4.wav";
+  String chord5= "bass-5.wav";
 
   // Methods
   // ----------------------------------------
