@@ -16,7 +16,10 @@ class floatingButton {
       timer = 0;
       innerCircleR=0;
   }
-  
+  public void setPosition(int x, int y){
+      coordx = x;
+      coordy = y;
+  }
   public void display(){
       ellipse(coordx,coordy,radius*2,radius*2);
       ellipse(coordx,coordy,innerCircleR*2,innerCircleR*2);

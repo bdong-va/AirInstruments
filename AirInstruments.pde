@@ -17,7 +17,7 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(255,0,255),
                                      color(0,255,255)
                                    };
-
+floatingButton[]  button = new floatingButton[4];
 AudioPlayer audio;
 Minim minim;
 
@@ -32,7 +32,10 @@ void setup()
      exit();
      return;  
   }
-  
+  //set button group for users.
+  for(int i=0;i<4;i++){
+    button[i]= new floatingButton(0,0,100,"Guitar");
+  }
   // Create Minim object
   minim = new Minim(this);
   
@@ -90,7 +93,14 @@ void draw()
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
       float chord = Hip.dist(LHand);
+      // Draw button for each user
+       PVector Head = new PVector();
+       Pvector Head2D = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
       
+      
+      button[i].setPosition((int)Head.x, (int)Head.y); 
+      button[i].display();
       // Adjust the weight of the string depending on its length
       if(chord<=500 && chord>200){
         strokeWeight(2);
