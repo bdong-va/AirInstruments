@@ -26,6 +26,7 @@ void setup()
 {
   // Create and initialize the kinect
   kinect = new SimpleOpenNI(this);
+  noFill();
   if(kinect.isInit() == false)
   {
      println("Kinect was not initalized! Exiting.."); 
@@ -34,7 +35,7 @@ void setup()
   }
   //set button group for users.
   for(int i=0;i<4;i++){
-    button[i]= new floatingButton(0,0,100,"Guitar");
+    button[i]= new floatingButton(0,0,50,"Guitar");
   }
   // Create Minim object
   minim = new Minim(this);
@@ -93,14 +94,23 @@ void draw()
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
       float chord = Hip.dist(LHand);
+      
       // Draw button for each user
        PVector Head = new PVector();
-       Pvector Head2D = new PVector();
+       PVector Head2D = new PVector();
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
-      
-      
-      button[i].setPosition((int)Head.x, (int)Head.y); 
+      kinect.convertRealWorldToProjective(Head,Head2D);         
+      button[i].setPosition((int)Head2D.x, (int)Head2D.y-70); 
       button[i].display();
+      
+      //check button for if been clicked.
+      PVector RHand = new PVector();
+      PVector RHand2D = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
+      kinect.convertRealWorldToProjective(RHand,RHand2D);
+      button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
+      
+      
       // Adjust the weight of the string depending on its length
       if(chord<=500 && chord>200){
         strokeWeight(2);
