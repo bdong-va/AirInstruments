@@ -9,7 +9,11 @@ class User {
  // Constructor
  User (int ID) {
    userID = ID;
-   
+   LHandID = 0;
+   RHandID = 0;
+   instrument = null;
+   prevPos = false;
+   curPos = false;   
  }
  
  // Methods

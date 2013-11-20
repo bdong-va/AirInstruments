@@ -5,7 +5,7 @@ class LeadGuitar implements Instrument{
   String chord3= "guitarDm.wav";
   String chord4= "guitarE.wav";
   String chord5= "guitarG.wav";
-  Minim minim;
+ 
   // Methods
   // ----------------------------------------
   // Play the guitar with supplied distance parameter
