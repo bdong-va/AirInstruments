@@ -182,20 +182,18 @@ void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
-  // Do we ignore same position updates?
-  /* if (lastPos == pos) {
-      return;
-     }else {
-       lastPos = pos;
-     }
-   */
-
+  // Get the user ID for this hand
   int userID = getUserFromHandID(handId);
-  //println("HandID " + handId + " matched to UserID " + userID);
+  
   if (userID == 0) {
     // Handle no user case
     // Try to find user again?
   } else {
+    // Check time last played to see if we should bother trying to let them play
+    // If it has been under 100 ms since the last play, just return
+    if ( (millis() - users[userID].lastPlayed) < 200 ) {
+      return;
+    }
     // Do update for that user... different for different instruments/states
     users[userID].setInstrument("lead");
     if ( users[userID].getInstrument().equals("none") ) {
@@ -234,6 +232,8 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
         users[userID].instrument.playGuitar(chordPos);
         // Save this
         users[userID].prevPos = users[userID].curPos;
+        // Record this as the time last played
+        users[userID].lastPlayed = millis();
       }
     } else {
       // Other instruments?
