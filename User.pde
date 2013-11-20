@@ -5,11 +5,17 @@ class User {
  int LHandID, RHandID;
  Instrument instrument;
  boolean prevPos, curPos; // For detecting crossing guitar string
+ int lastPlayed;
  
  // Constructor
  User (int ID) {
    userID = ID;
-   
+   LHandID = 0;
+   RHandID = 0;
+   instrument = null;
+   prevPos = false;
+   curPos = false;   
+   lastPlayed = 0;
  }
  
  // Methods

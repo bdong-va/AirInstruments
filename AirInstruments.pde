@@ -9,7 +9,7 @@ import ddf.minim.*;
 import SimpleOpenNI.*;
 
 SimpleOpenNI  kinect;
-User[]        users;
+User[]        users = new User[4];
 color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,0),
                                      color(0,0,255),
@@ -17,7 +17,7 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(255,0,255),
                                      color(0,255,255)
                                    };
-
+floatingButton[]  button = new floatingButton[4];
 AudioPlayer audio;
 Minim minim;
 
@@ -26,13 +26,17 @@ void setup()
 {
   // Create and initialize the kinect
   kinect = new SimpleOpenNI(this);
+  noFill();
   if(kinect.isInit() == false)
   {
      println("Kinect was not initalized! Exiting.."); 
      exit();
      return;  
   }
-  
+  //set button group for users.
+  for(int i=0;i<4;i++){
+    button[i]= new floatingButton(0,0,50,"Guitar");
+  }
   // Create Minim object
   minim = new Minim(this);
   
@@ -48,13 +52,13 @@ void setup()
   // Set the mirror on for practicing (add this functionality?)
   // Detect a more complex gesture for mirroring the video?
   
-  // Enable hand tracking and start the hand raise gesture
+  // Enable hand tracking and start the wave gesture
   kinect.enableHand();
-  kinect.startGesture(SimpleOpenNI.GESTURE_HAND_RAISE);
+  kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
   
   // Inherit the size of the RGB image
-  size(kinect.rgbWidth(), kinect.rgbHeight());
-  //size(640,480);
+  //size(kinect.rgbWidth(), kinect.rgbHeight());
+  size(640,480);
   
   // Prepare graphics
   background(200,0,0);
@@ -81,8 +85,51 @@ void draw()
     if(kinect.isTrackingSkeleton(userList[i]))
     {
       // Draw the skeleton, dev only
-      // stroke(userClr[ (userList[i] - 1) % userClr.length ] );
-      // drawSkeleton(userList[i]); 
+      stroke(userClr[ 5 ] );
+      //drawSkeleton(userList[i]); 
+      
+      // Draw guitar
+      PVector LHand = new PVector();
+      PVector Hip = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
+      float chord = Hip.dist(LHand);
+      
+      // Draw button for each user
+       PVector Head = new PVector();
+       PVector Head2D = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
+      kinect.convertRealWorldToProjective(Head,Head2D);         
+      button[i].setPosition((int)Head2D.x, (int)Head2D.y-70); 
+      button[i].display();
+      
+      //check button for if been clicked.
+      PVector RHand = new PVector();
+      PVector RHand2D = new PVector();
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
+      kinect.convertRealWorldToProjective(RHand,RHand2D);
+      button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
+      
+      
+      // Adjust the weight of the string depending on its length
+      if(chord<=500 && chord>200){
+        strokeWeight(2);
+      }else if(chord<=600 && chord>500){
+        strokeWeight(4);
+      }else if(chord<=700 && chord>600){
+        strokeWeight(6);
+      }else if(chord<=800 && chord>700){
+        strokeWeight(8);
+      }else if(chord<=900 && chord>800){
+        strokeWeight(10);
+      }
+      // Make the string green if it was recently played; black if not
+      if ( (millis() - users[userList[i]].lastPlayed) < 200 ) {
+        stroke(0, 255, 0);
+      } else {
+        stroke(0, 0, 0);
+      }
+      kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
     }      
   }    
 }
@@ -122,7 +169,7 @@ void onNewUser(SimpleOpenNI curContext, int userId)
   
   // Print to screen to inform user
   println("onNewUser - userId: " + userId);
-  //println("\tstart tracking skeleton");
+  println("\tstart tracking skeleton");
   
   // Start tracking the skeleton
   curContext.startTrackingSkeleton(userId);
@@ -136,7 +183,7 @@ void onLostUser(SimpleOpenNI curContext, int userId)
 
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
-  // println("onVisibleUser - userId: " + userId);
+  //println("onVisibleUser - userId: " + userId);
   // Draw the menu above their head ??
 }
 
@@ -148,35 +195,35 @@ void onNewHand(SimpleOpenNI curContext,int handId,PVector pos)
   println("onNewHand - handId: " + handId + ", pos: " + pos);
   // Determine the userId of this hand. - = left, + = right hands
   int bestUserID = determineHand(pos);
-  if (bestUserID == -1) {
+  println("HandID " + handId + " matched to UserID " + bestUserID);
+  if (bestUserID == 0) {
     // Handle this case somehow
   } else {
     // Assign that handId to the User's correct hand
-    users[abs(bestUserID)].userID = abs(bestUserID);
     if (bestUserID < 0) {
-      users[abs(bestUserID)].LHandID = handId;
+      users[abs(bestUserID)].setLHandID(handId);
     } else {
-      users[abs(bestUserID)].RHandID = handId;
+      users[abs(bestUserID)].setRHandID(handId);
     }
   }
 }
 
 void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
-  // Do we ignore same position updates?
-  /* if (lastPos == pos) {
-      return;
-     }else {
-       lastPos = pos;
-     }
-   */
-     
+  // Get the user ID for this hand
   int userID = getUserFromHandID(handId);
-  if (userID == -1) {
+  
+  if (userID == 0) {
     // Handle no user case
     // Try to find user again?
   } else {
+    // Check time last played to see if we should bother trying to let them play
+    // If it has been under 100 ms since the last play, just return
+    if ( (millis() - users[userID].lastPlayed) < 200 ) {
+      return;
+    }
     // Do update for that user... different for different instruments/states
+    users[userID].setInstrument("lead");
     if ( users[userID].getInstrument().equals("none") ) {
       // Do menus / instrument selection
     } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {
@@ -185,24 +232,36 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
       // Create the vectors and fill them with data from kinect
       PVector LHand = new PVector();
       PVector RHand = new PVector();
-      PVector RHip = new PVector();
-      kinect.getJointPositionSkeleton(userID, kinect.SKEL_LEFT_HAND, LHand);
-      kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HAND, RHand);
-      kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HIP, RHip);
+      PVector Hip = new PVector();
+      // We want to use the hand vector for the  dominant hand of that user
+      // And the corresponding hop
+      if (handId == users[userID].getLHandID()) {
+        // It's their left hand. Use hand vector for it
+        LHand = pos;
+        kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HAND, RHand);
+        kinect.getJointPositionSkeleton(userID, kinect.SKEL_LEFT_HIP, Hip);
+      } else {
+        kinect.getJointPositionSkeleton(userID, kinect.SKEL_LEFT_HAND, LHand);
+        RHand = pos;
+        kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HIP, Hip);
+      }
       
       // See what side of the string the hand is on
-      users[userID].curPos = isOnTopOfLine(LHand.x, LHand.y, RHip.x, RHip.y, RHand.x, RHand.y);
+      users[userID].curPos = isOnTopOfLine(LHand.x, LHand.y, Hip.x, Hip.y, RHand.x, RHand.y);
       
       // If the hand cross the string...
       if (users[userID].curPos != users[userID].prevPos){
         // Calculate chord distance
-        float chordPos = RHip.dist(LHand);
+        println("played");
+        float chordPos = Hip.dist(LHand);
         // Dev printing -- should probably indicate to user visually too
         // println("distance:"+chordPos);
         // Play the guitar
         users[userID].instrument.playGuitar(chordPos);
         // Save this
         users[userID].prevPos = users[userID].curPos;
+        // Record this as the time last played
+        users[userID].lastPlayed = millis();
       }
     } else {
       // Other instruments?
@@ -212,15 +271,17 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 
 int getUserFromHandID(int handId) {
   // Get the user ID with this hand
-  int[] userList = kinect.getUsers();
-  for(int i=0;i<userList.length;i++) {
-    if ( users[i] != null ) {
-      if ( handId == users[i].getLHandID() || handId == users[i].getRHandID() ) {
-        return users[i].userID;
+  int[] ul = kinect.getUsers();
+  for(int i=0;i<ul.length;i++) {
+    if(kinect.isTrackingSkeleton(ul[i]))
+    {
+      if ( handId == users[ul[i]].getLHandID() || handId == users[ul[i]].getRHandID() ) {
+        return users[ul[i]].userID;
       }
     }
   }
-  return -1; // No match found
+  println("no match"); 
+  return 0; // No match found
 }
   
 void onLostHand(SimpleOpenNI curContext,int handId)
@@ -233,10 +294,12 @@ void onLostHand(SimpleOpenNI curContext,int handId)
 
 void onCompletedGesture(SimpleOpenNI curContext,int gestureType, PVector pos)
 {
-  println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
+  // Dev printing
+  // println("onCompletedGesture - gestureType: " + gestureType + ", pos: " + pos);
   
   int handId = curContext.startTrackingHand(pos);
-  println("hand tracked: " + handId);
+  // Returns 0 if we're already tracking the hand, I think...
+  // println("hand tracked: " + handId);
 }
 
 // Detect if a point is on top of a line defined by two other points
@@ -251,7 +314,7 @@ boolean isOnTopOfLine(float x1,float y1,float x2, float y2, float xp, float yp){
 int determineHand(PVector handPos) {
   // Initialize solution parameters
   float minDist = 1500;
-  int bestUser = -1;
+  int bestUser = 0;
   
   // For each user, if we're tracking them, compare their hands to the hand position
   // Keep track of which user has the best match
@@ -270,19 +333,19 @@ int determineHand(PVector handPos) {
        if (LDist < minDist) 
        {
          // Negative userID implies left
-         bestUser = -i;
+         bestUser = -userList[i];
          minDist = LDist;
        }
        if (RDist < minDist)
        {
-         bestUser = +i;
+         bestUser = +userList[i];
          minDist = RDist;
        }
     }
   }
-  if ( bestUser == -1 ) {
+  if ( bestUser == 0 ) {
     println("Could not match hand to a user");
-    return -1;
+    return 0;
   } else {
     // Dev printing
     // println("Hand " + handId + " belonds to user " + bestUser);
