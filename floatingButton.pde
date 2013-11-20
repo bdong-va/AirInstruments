@@ -34,6 +34,7 @@ class floatingButton {
       //display text about button.
       //TODO change thick and color of text
       textAlign(CENTER);
+      textSize(26);
       text(content, coordx,coordy+5);
       
   }

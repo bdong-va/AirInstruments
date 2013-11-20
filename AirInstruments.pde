@@ -18,6 +18,7 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(0,255,255)
                                    };
 instrumentChoose[]  button = new instrumentChoose[4];
+String[] InstrumentList = {"lead","bass"};
 AudioPlayer audio;
 Minim minim;
 
@@ -35,8 +36,7 @@ void setup()
   }
   //set button group for users.
   for(int i=0;i<4;i++){
-    String[] InstrumentList = {"lead","bass"};
-    button[i]= new instrumentChoose(0,0,50,InstrumentList);
+    button[i]= new instrumentChoose(0,0,80,InstrumentList);
   }
   // Create Minim object
   minim = new Minim(this);
@@ -101,7 +101,7 @@ void draw()
        PVector Head2D = new PVector();
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
       kinect.convertRealWorldToProjective(Head,Head2D);         
-      button[i].setPosition((int)Head2D.x, (int)Head2D.y-70); 
+      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
       button[i].display();
       button[i].setUser(userList[i]);
       
@@ -119,15 +119,15 @@ void draw()
       
       
       // Adjust the weight of the string depending on its length
-      if(chord<=500 && chord>200){
+      if(chord<=400 && chord>200){
         strokeWeight(2);
-      }else if(chord<=600 && chord>500){
+      }else if(chord<=550 && chord>400){
         strokeWeight(4);
-      }else if(chord<=700 && chord>600){
+      }else if(chord<=700 && chord>550){
         strokeWeight(6);
-      }else if(chord<=800 && chord>700){
+      }else if(chord<=850 && chord>700){
         strokeWeight(8);
-      }else if(chord<=900 && chord>800){
+      }else if(chord>850){
         strokeWeight(10);
       }
       // Make the string green if it was recently played; black if not
@@ -230,10 +230,6 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
       return;
     }
     // Do update for that user... different for different instruments/states
-<<<<<<< HEAD
-    users[userID].setInstrument("bass");
-=======
->>>>>>> refs/heads/buttonWork2
     if ( users[userID].getInstrument().equals("none") ) {
       // Do menus / instrument selection
     } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {
