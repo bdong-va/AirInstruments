@@ -49,7 +49,7 @@ void setup()
   kinect.enableUser();
   
   // Set mirror false for projecting camera view to an audience
-  kinect.setMirror(false);
+  kinect.setMirror(true);
   // Set the mirror on for practicing (add this functionality?)
   // Detect a more complex gesture for mirroring the video?
   
@@ -89,6 +89,14 @@ void draw()
       stroke(userClr[ 5 ] );
       //drawSkeleton(userList[i]); 
       
+      //draw a sign for a tracked hand.
+      PVector handPos = users[userList[i]].handPos;
+      if (handPos != null) {
+        strokeWeight(3);
+        kinect.convertRealWorldToProjective(handPos,handPos);
+        ellipse(handPos.x, handPos.y, 10, 10);
+      }
+  
       // Draw guitar
       PVector LHand = new PVector();
       PVector Hip = new PVector();
@@ -100,7 +108,10 @@ void draw()
        PVector Head = new PVector();
        PVector Head2D = new PVector();
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
-      kinect.convertRealWorldToProjective(Head,Head2D);         
+      kinect.convertRealWorldToProjective(Head,Head2D);
+      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
+      button[i].display();
+      button[i].setUser(userList[i]);      
       
       
       //check button for if been clicked.
@@ -215,14 +226,12 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
 {
   // Get the user ID for this hand
   int userID = getUserFromHandID(handId);
-  //draw a sign for a tracked hand.
-  strokeWeight(3);
-  rect(pos.x, pos.y, 20,20);
   
   if (userID == 0) {
     // Handle no user case
     // Try to find user again?
   } else {
+    users[userID].handPos = pos;
     // Check time last played to see if we should bother trying to let them play
     // If it has been under 100 ms since the last play, just return
     if ( (millis() - users[userID].lastPlayed) < 200 ) {
@@ -291,7 +300,8 @@ int getUserFromHandID(int handId) {
   
 void onLostHand(SimpleOpenNI curContext,int handId)
 {
-  println("onLostHand - handId: " + handId);
+  int userID = getUserFromHandID(handId);
+  users[userID].handPos = null;
 }
 
 // -----------------------------------------------------------------

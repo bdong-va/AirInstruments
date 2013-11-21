@@ -3,6 +3,7 @@ class User {
  // Attributes
  int userID;
  int LHandID, RHandID;
+ PVector handPos;
  Instrument instrument;
  boolean prevPos, curPos; // For detecting crossing guitar string
  int lastPlayed;
@@ -12,10 +13,12 @@ class User {
    userID = ID;
    LHandID = 0;
    RHandID = 0;
+   handPos = null;
    instrument = new LeadGuitar();
    prevPos = false;
    curPos = false;   
    lastPlayed = 0;
+   
  }
  
  // Methods
