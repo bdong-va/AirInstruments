@@ -27,6 +27,7 @@ class buttonGroup{
       println("setButton in buttonGroup does not works well.");
     } else {
       buttons[order] = fb;
+      fb.setButtonGroup(this);
     }
   }
   

@@ -120,6 +120,7 @@ void draw()
       
       
       //check button for if been clicked.
+      btngrp[i].setUser(userList[i]);
       PVector RHand = users[userList[i]].RHand;
       PVector RHand2D = users[userList[i]].RHand2D;
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);

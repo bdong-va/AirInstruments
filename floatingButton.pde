@@ -18,7 +18,7 @@ class floatingButton {
       innerCircleR=0;
   }
   //set the group this button belongs.
-  public void setGroup(buttonGroup bg){
+  public void setButtonGroup(buttonGroup bg){
   buttonGroup = bg;
   }
   public buttonGroup getButtonGroup(){
