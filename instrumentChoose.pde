@@ -18,7 +18,7 @@ class instrumentChoose extends floatingButton {
     }
     content = instrumentList[currentInstrument];
     println(content);
-    users[user].setInstrument(content);
+    users[getButtonGroup().userID].setInstrument(content);
   }
   
 }
