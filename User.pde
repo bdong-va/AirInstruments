@@ -4,6 +4,8 @@ class User {
  int userID;
  int LHandID, RHandID;
  PVector handPos;
+ PVector LHand, RHand,Hip,Head;
+ PVector LHand2D, RHand2D, Hip2D, Head2D;
  Instrument instrument;
  boolean prevPos, curPos; // For detecting crossing guitar string
  int lastPlayed;
@@ -18,7 +20,14 @@ class User {
    prevPos = false;
    curPos = false;   
    lastPlayed = 0;
-   
+   LHand = new PVector();
+   RHand = new PVector();
+   Hip = new PVector();
+   Head = new PVector();
+   LHand2D = new PVector();
+   RHand2D = new PVector();
+   Hip2D = new PVector();
+   Head2D = new PVector();  
  }
  
  // Methods

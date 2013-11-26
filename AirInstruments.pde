@@ -98,31 +98,24 @@ void draw()
       }
   
       // Draw guitar
-      PVector LHand = new PVector();
-      PVector Hip = new PVector();
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
-      float chord = Hip.dist(LHand);
+
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, users[userList[i]].LHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, users[userList[i]].Hip);
+      float chord = users[userList[i]].Hip.dist(users[userList[i]].LHand);
       
       // Draw button for each user
-       PVector Head = new PVector();
-       PVector Head2D = new PVector();
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
-      kinect.convertRealWorldToProjective(Head,Head2D);
-      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, users[userList[i]].Head);
+      kinect.convertRealWorldToProjective(users[userList[i]].Head,users[userList[i]].Head2D);
+      button[i].setPosition((int)users[userList[i]].Head2D.x, (int)users[userList[i]].Head2D.y-50); 
       button[i].display();
       button[i].setUser(userList[i]);      
       
       
       //check button for if been clicked.
-      PVector RHand = new PVector();
-      PVector RHand2D = new PVector();
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
-      kinect.convertRealWorldToProjective(RHand,RHand2D);
-      
-      
-      
-      button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, users[userList[i]].RHand);
+      kinect.convertRealWorldToProjective(users[userList[i]].RHand,users[userList[i]].RHand2D);
+
+      button[i].isTouched((int)users[userList[i]].RHand2D.x,(int)users[userList[i]].RHand2D.y);      
       
       
       // Adjust the weight of the string depending on its length
