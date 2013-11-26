@@ -98,24 +98,29 @@ void draw()
       }
   
       // Draw guitar
-
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, users[userList[i]].LHand);
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, users[userList[i]].Hip);
-      float chord = users[userList[i]].Hip.dist(users[userList[i]].LHand);
+      PVector LHand = users[userList[i]].LHand;
+      PVector Hip = users[userList[i]].Hip;
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
+      float chord = Hip.dist(LHand);
       
       // Draw button for each user
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, users[userList[i]].Head);
-      kinect.convertRealWorldToProjective(users[userList[i]].Head,users[userList[i]].Head2D);
-      button[i].setPosition((int)users[userList[i]].Head2D.x, (int)users[userList[i]].Head2D.y-50); 
+      PVector Head = users[userList[i]].Head;
+      PVector Head2D = users[userList[i]].Head2D;
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
+      kinect.convertRealWorldToProjective(Head,Head2D);
+      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
       button[i].display();
       button[i].setUser(userList[i]);      
       
       
       //check button for if been clicked.
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, users[userList[i]].RHand);
-      kinect.convertRealWorldToProjective(users[userList[i]].RHand,users[userList[i]].RHand2D);
+      PVector RHand = users[userList[i]].RHand;
+      PVector RHand2D = users[userList[i]].RHand2D;
+      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
+      kinect.convertRealWorldToProjective(users[userList[i]].RHand, RHand2D);
 
-      button[i].isTouched((int)users[userList[i]].RHand2D.x,(int)users[userList[i]].RHand2D.y);      
+      button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
       
       
       // Adjust the weight of the string depending on its length
