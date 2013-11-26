@@ -17,7 +17,8 @@ color[]       userClr = new color[]{ color(255,0,0),
                                      color(255,0,255),
                                      color(0,255,255)
                                    };
-instrumentChoose[]  button = new instrumentChoose[4];
+//instrumentChoose[]  button = new instrumentChoose[4];
+buttonGroup[] btngrp = new buttonGroup[4];
 String[] InstrumentList = {"lead","bass"};
 AudioPlayer audio;
 Minim minim;
@@ -36,7 +37,10 @@ void setup()
   }
   //set button group for users.
   for(int i=0;i<4;i++){
-    button[i]= new instrumentChoose(0,0,80,InstrumentList);
+   floatingButton btn = new instrumentChoose(0,0,40,InstrumentList);
+    btngrp[i] = new buttonGroup();
+    btngrp[i].setButton(0, btn);
+    btngrp[i].setCurrentButton(0,0);
   }
   // Create Minim object
   minim = new Minim(this);
@@ -109,9 +113,10 @@ void draw()
       PVector Head2D = users[userList[i]].Head2D;
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_HEAD, Head);
       kinect.convertRealWorldToProjective(Head,Head2D);
-      button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
-      button[i].display();
-      button[i].setUser(userList[i]);      
+      btngrp[i].drawCurrentButton((int)Head2D.x, (int)Head2D.y);
+      //button[i].setPosition((int)Head2D.x, (int)Head2D.y-50); 
+     // button[i].display();
+     // button[i].setUser(userList[i]);      
       
       
       //check button for if been clicked.
@@ -119,8 +124,7 @@ void draw()
       PVector RHand2D = users[userList[i]].RHand2D;
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       kinect.convertRealWorldToProjective(users[userList[i]].RHand, RHand2D);
-
-      button[i].isTouched((int)RHand2D.x,(int)RHand2D.y);      
+      btngrp[i].checkCurrentButton((int)RHand2D.x,(int)RHand2D.y);      
       
       
       // Adjust the weight of the string depending on its length

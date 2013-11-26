@@ -1,24 +1,28 @@
 class floatingButton {
   int coordx;
   int coordy;
-  int user;
+  buttonGroup buttonGroup;
   float radius;
   String content;
   boolean touched;
   float innerCircleR;
   int timer;
   //constructor
-  public floatingButton(int x, int y, int d, String s){
+  public floatingButton(int x, int y, int r, String s){
       coordx = x;
       coordy = y;
-      radius = d/2;
+      radius = r;
       content = s;
       touched = false;
       timer = 0;
       innerCircleR=0;
   }
-  public void setUser(int u){
-  user = u;
+  //set the group this button belongs.
+  public void setGroup(buttonGroup bg){
+  buttonGroup = bg;
+  }
+  public buttonGroup getButtonGroup(){
+  return buttonGroup;
   }
   //method to change the location of the button.
   public void setPosition(int x, int y){
