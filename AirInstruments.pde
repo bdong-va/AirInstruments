@@ -23,6 +23,7 @@ String[] InstrumentList = {"lead","bass"};
 AudioPlayer audio;
 Minim minim;
 Metronome mn;
+Recorder rec;
 
 // Setup
 void setup()
@@ -72,6 +73,9 @@ void setup()
   stroke(0,0,255);
   strokeWeight(3);
   smooth();  
+  
+  // Create the recorder
+  rec = new Recorder();
 }
 
 // Draw
@@ -151,9 +155,11 @@ void draw()
       kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
     }      
   }    
+  
+  //update the Metronome
+  mn.display();
+  
 }
-//update the Metronome
-mn.display();
 
 // draw the skeleton with the selected joints
 void drawSkeleton(int userId)
