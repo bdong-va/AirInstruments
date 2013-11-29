@@ -38,12 +38,24 @@ void setup()
      exit();
      return;  
   }
-  //set button group for users.
+  
+  // Create the recorder
+  rec = new Recorder();
+  
+  //set btngrputton group for users.
   for(int i=0;i<4;i++){
    floatingButton btn = new instrumentChoose(0,0,40,InstrumentList);
+   floatingButton playbtn = new PlayButton(0,0,40,"Play", rec);
+   floatingButton recordbtn = new RecordButton(0,0,40,"Record", rec);
+   
     btngrp[i] = new buttonGroup();
     btngrp[i].setButton(0, btn);
+    btngrp[i].setButton(1, playbtn);
+    btngrp[i].setButton(2, recordbtn);
+     
     btngrp[i].setCurrentButton(0,0);
+    btngrp[i].setCurrentButton(1,1);
+    btngrp[i].setCurrentButton(2,2);
   }
   // Create Minim object
   minim = new Minim(this);
@@ -74,7 +86,7 @@ void setup()
   stroke(0,0,255);
   strokeWeight(3);
   smooth();  
-  
+
   // Create the recorder
   rec = new Recorder();
   

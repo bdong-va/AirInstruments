@@ -71,6 +71,9 @@ class Recorder {
   // Record Input
   public void recordInput(float inTime, String inSound) {
     // Scale the input time
+    
+    println("I am recording!");
+    
     float thisScale = mn.calcScale(inTime);
     if (isQuantizing) {
       thisScale = quantizeInput(thisScale);
