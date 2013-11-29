@@ -24,6 +24,7 @@ AudioPlayer audio;
 Minim minim;
 Metronome mn;
 Recorder rec;
+Player player;
 
 // Setup
 void setup()
@@ -76,6 +77,10 @@ void setup()
   
   // Create the recorder
   rec = new Recorder();
+  
+  // Create player and start it
+  player = new Player(1);
+  
 }
 
 // Draw

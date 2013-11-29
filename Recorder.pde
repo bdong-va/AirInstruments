@@ -24,7 +24,7 @@ class Recorder {
   */
   public Recorder() {
     isRecording = true;
-    isPlaying = false;
+    isPlaying = true;
     isQuantizing = true;
     factor = 2;
     soundTimes = new ArrayList<SoundTime>();
@@ -84,10 +84,6 @@ class Recorder {
     Collections.sort(soundTimes);
   }
   
-  // Play Sound
-  public void playSound(String sound) {
-    audio = minim.loadFile(sound,512);
-    audio.play();
-  }
+  
   
 }
