@@ -15,11 +15,15 @@ float beatNum;
     beatNum = 4;
     scale = 0.0;
   }
-  //rescale the position of Metronome's pointer.
-  public void reScale(int time){
+  //calculate scale
+  public float calcScale(float time) {
     int bar = (int)beatNum*(60000/BPM);
     float reminder = time % bar;
-    scale = reminder/bar;
+    return reminder/bar;
+  }
+  //rescale the position of Metronome's pointer.
+  public void reScale(float time){
+    scale = calcScale(time);
   }
   public void display(){
     //change the position of pointer.
