@@ -44,7 +44,14 @@ class Recorder {
   }
   
   // Record Input
-  public void recordInput(float inTime, String inSound) {}
+  public void recordInput(float inTime, String inSound) {
+    // Create the soundTime
+    SoundTime newSoundTime = new SoundTime(inTime, inSound);
+    // Add it to the list
+    soundTimes.add(newSoundTime);
+    // Sort the list
+    Collections.sort(soundTimes);
+  }
   
   // Play Sound
   public void playSound(String sound) {}

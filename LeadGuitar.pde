@@ -11,19 +11,25 @@ class LeadGuitar implements Instrument{
   // Play the guitar with supplied distance parameter
   void playGuitar(float chord){
     // Select the chord to play
+     String sound = null;
      if(chord<=400 && chord>200){
-      audio = minim.loadFile(chord1,512);
+      sound = chord1;
      }else if(chord<=550 && chord>400){
-      audio = minim.loadFile(chord2,512);
+      sound = chord2;
      }else if(chord<=700 && chord>550){
-      audio = minim.loadFile(chord3,512);
+      sound = chord3;
      }else if(chord<=850 && chord>700){
-      audio = minim.loadFile(chord4,512);
+      sound = chord4;
      }else if(chord>850){
-      audio = minim.loadFile(chord5,512);
+      sound = chord5;
      }
     // Play the chord
+    audio = minim.loadFile(sound,512);
     audio.play();
+    
+    if (rec.isRecording) {
+      rec.recordInput(millis(), sound);
+    }
  }
 }
 
