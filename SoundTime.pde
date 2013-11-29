@@ -1,4 +1,4 @@
-class SoundTime {
+class SoundTime implements Comparable<SoundTime> {
   float time;
   String sound;
   
@@ -8,12 +8,6 @@ class SoundTime {
   }
   
   public int compareTo(SoundTime other) {
-    if (other.time > this.time) {
-      return 1;
-    } else if (other.time < this.time) {
-      return -1;
-    } else {
-      return 0;
-    }
+    return this.time - other.time;
   }
 }
