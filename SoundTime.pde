@@ -8,6 +8,6 @@ class SoundTime implements Comparable<SoundTime> {
   }
   
   public int compareTo(SoundTime other) {
-    return this.time - other.time;
+    return (int)(this.time - other.time);
   }
 }
