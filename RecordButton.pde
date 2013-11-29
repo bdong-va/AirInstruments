@@ -1,8 +1,8 @@
 class RecordButton extends floatingButton{
-  Recorder rec;
+  //Recorder rec;
   public RecordButton(int x, int y, int d, String s, Recorder rec){
     super(x, y, d, s);
-    this.rec = rec;
+    //this.rec = rec;
   }
   
   public void invoke(){

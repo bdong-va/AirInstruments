@@ -7,8 +7,8 @@ class Recorder {
   */
   
   // State of recording/playing/quantizing
-  boolean isRecording;
-  boolean isPlaying;
+  public boolean isRecording;
+  public boolean isPlaying;
   boolean isQuantizing;
   // Quantization factor
   // 1 means quantization to beats, 2 means to half beats, 4 to quarter, etc...
@@ -23,8 +23,8 @@ class Recorder {
   * Constructor
   */
   public Recorder() {
-    isRecording = true;
-    isPlaying = true;
+    isRecording = false;
+    isPlaying = false;
     isQuantizing = true;
     factor = 2;
     soundTimes = new ArrayList<SoundTime>();
@@ -61,7 +61,6 @@ class Recorder {
     
     for (int i = 0; i <= mn.beatNum*factor; i++) {
       if ( (inScale - i*beatScale ) < beatScale/2 ) {
-        println(i*beatScale);
         return i*beatScale == 1 ? 0 : i*beatScale;
       }
     }
@@ -72,21 +71,17 @@ class Recorder {
   public void recordInput(float inTime, String inSound) {
     // Scale the input time
     
-    println("I am recording!");
-    
     float thisScale = mn.calcScale(inTime);
     if (isQuantizing) {
       thisScale = quantizeInput(thisScale);
     }
-    println(thisScale);
     // Create the soundTime
     SoundTime newSoundTime = new SoundTime(thisScale, inSound);
     // Add it to the list
     soundTimes.add(newSoundTime);
     // Sort the list
     Collections.sort(soundTimes);
+   
   }
-  
-  
   
 }

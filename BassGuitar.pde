@@ -27,7 +27,7 @@ class BassGuitar implements Instrument{
     audio = minim.loadFile(sound,512);
     audio.play();
     
-    if (rec.isRecording) {
+    if(rec.isRecording==true){
       rec.recordInput(millis(), sound);
     }
  }

@@ -23,7 +23,12 @@ float beatNum;
   }
   //rescale the position of Metronome's pointer.
   public void reScale(float time){
-    scale = calcScale(time);
+    float newScale = calcScale(time);
+    // If the new scale is less than the old scale, reset the player index
+    if ( newScale < scale) {
+      player.index = 0;
+    }
+    scale = newScale;
   }
   public void display(){
     //change the position of pointer.

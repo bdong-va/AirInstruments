@@ -10,21 +10,17 @@ class Player extends Thread {
     
   void run() {
     while (true) {
-      // While we are playing and there are notes to play
-      if (rec.isPlaying && rec.soundTimes.size() != 0 ) {
+      // While we are playing, there are notes, and we're not done playing them all....
+      if (rec.isPlaying && rec.soundTimes.size() != 0 && index < rec.soundTimes.size()  ) {
         // Read the time and sound of the current note
         float time = rec.soundTimes.get(index).time;
         String sound = rec.soundTimes.get(index).sound;
         // Read the metrononome time
         float mTime = mn.scale;
         // If we have passed the note, play it and then move on
-        if ( time > mTime ) {
+        if ( time < mTime ) {
           playSound(sound);
           index++;
-          // If we've passed the bounds of the array, go back to the start
-          if (index >= rec.soundTimes.size()) {
-            index = 0;
-          }
         }
       }
       // Wait 
@@ -34,11 +30,19 @@ class Player extends Thread {
     }    
   }
   
+  void quit() {
+    System.out.println("Quitting."); 
+    rec.isPlaying = false;  // Setting running to false ends the loop in run()
+    // In case the thread is waiting. . .
+    interrupt();
+  }
+  
   // Play Sound
   public void playSound(String sound) {
     audio = minim.loadFile(sound,512);
     audio.play();
   }
+ 
  
   
 }

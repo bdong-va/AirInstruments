@@ -91,7 +91,7 @@ void setup()
   rec = new Recorder();
   
   // Create player and start it
-  player = new Player(1);
+  player = new Player(5);
   
 }
 
@@ -174,6 +174,8 @@ void draw()
   }    
   
   //update the Metronome
+  strokeWeight(4);
+  stroke(0, 0, 0);
   mn.display();
   
 }
@@ -296,10 +298,8 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
       // If the hand cross the string...
       if (users[userID].curPos != users[userID].prevPos){
         // Calculate chord distance
-        println("played");
         float chordPos = Hip.dist(LHand);
         // Dev printing -- should probably indicate to user visually too
-        // println("distance:"+chordPos);
         // Play the guitar
         users[userID].instrument.playGuitar(chordPos);
         // Save this
