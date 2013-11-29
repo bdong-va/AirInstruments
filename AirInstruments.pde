@@ -22,6 +22,7 @@ buttonGroup[] btngrp = new buttonGroup[4];
 String[] InstrumentList = {"lead","bass"};
 AudioPlayer audio;
 Minim minim;
+Metronome mn;
 
 // Setup
 void setup()
@@ -44,7 +45,8 @@ void setup()
   }
   // Create Minim object
   minim = new Minim(this);
-  
+  // Create Metronome
+  mn = new Metronome(width/4,height*5/7, 300,30, 68, color(255, 204, 0));
   // enable depthMap and RGB generation from Kinect
   kinect.enableDepth();
   kinect.enableRGB();
@@ -150,6 +152,8 @@ void draw()
     }      
   }    
 }
+//update the Metronome
+mn.display();
 
 // draw the skeleton with the selected joints
 void drawSkeleton(int userId)
