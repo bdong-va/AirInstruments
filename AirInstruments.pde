@@ -231,8 +231,14 @@ void onLostUser(SimpleOpenNI curContext, int userId)
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
   // Fill out the user's joint information, discarding 0 confidence data   
-  PVector LHand, RHand, Hip, Head;
-  PVector LHand2D, RHand2D, Hip2D, Head2D;
+  PVector LHand = new PVector();
+  PVector RHand = new PVector();
+  PVector Hip = new PVector();
+  PVector Head = new PVector();
+  PVector LHand2D = new PVector();
+  PVector RHand2D = new PVector();
+  PVector Hip2D = new PVector();
+  PVector Head2D = new PVector();
   
   if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_LEFT_HAND, LHand) != 0.0) {
     kinect.convertRealWorldToProjective(LHand, LHand2D);
