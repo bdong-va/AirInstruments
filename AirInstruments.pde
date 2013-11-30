@@ -229,8 +229,26 @@ void onLostUser(SimpleOpenNI curContext, int userId)
 
 void onVisibleUser(SimpleOpenNI curContext, int userId)
 {
-  //println("onVisibleUser - userId: " + userId);
-  // Draw the menu above their head ??
+  // Fill out the user's joint information, discarding 0 confidence data   
+  PVector LHand, RHand, Hip, Head;
+  PVector LHand2D, RHand2D, Hip2D, Head2D;
+  
+  if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_LEFT_HAND, LHand) != 0.0) {
+    kinect.convertRealWorldToProjective(LHand, LHand2D);
+    users[userId].LHand2D = LHand2D;
+  }
+  if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_RIGHT_HAND, RHand) != 0.0) {
+    kinect.convertRealWorldToProjective(RHand, RHand2D);
+    users[userId].RHand2D = RHand2D;
+  }
+  if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_RIGHT_HIP, Hip) != 0.0) {
+    kinect.convertRealWorldToProjective(Hip, Hip2D);
+    users[userId].Hip2D = Hip2D;
+  }
+  if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_HEAD, Head) != 0.0) {
+    kinect.convertRealWorldToProjective(Head, Head2D);
+    users[userId].Head2D = Head2D;
+  }
 }
 
 // -----------------------------------------------------------------

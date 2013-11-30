@@ -32,7 +32,8 @@ float beatNum;
   }
   public void display(){
     //change the position of pointer.
-    this.reScale(millis());
+    // Moved this line to the Player thread
+    //this.reScale(millis());
     
     //draw the frame of Metronome
     float beatScale = 1/beatNum;

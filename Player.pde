@@ -10,6 +10,8 @@ class Player extends Thread {
     
   void run() {
     while (true) {
+      // Update the metronome
+      mn.reScale(millis());
       // While we are playing, there are notes, and we're not done playing them all....
       if (rec.isPlaying && rec.soundTimes.size() != 0 && index < rec.soundTimes.size()  ) {
         // Read the time and sound of the current note
