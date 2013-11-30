@@ -8,7 +8,7 @@ float startTime;
   public BubbleChord(float x, float y, String content,color c){
     this.x = x;
     this.y = y;
-    this.content = content;
+    this.content = content.replace(".wav", "");
     this.c = c;
     this.opacity  = 100;
     startTime = 0;
@@ -38,10 +38,10 @@ float startTime;
     
   }
   
-  public void setContent(String s){
-    this.content = s;
-    display();
-  }
+//  public void setContent(String s){
+//    this.content = s;
+//    display();
+//  }
   
   
 }
