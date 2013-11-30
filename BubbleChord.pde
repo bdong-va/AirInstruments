@@ -10,28 +10,28 @@ float startTime;
     this.y = y;
     this.content = content;
     this.c = c;
-    this.opacity  = 0;
+    this.opacity  = 100;
     startTime = 0;
   }
   public void display(){
     fill(c,opacity);
     text(content, x, y);
+
   }
   public void bubble(){
     if(startTime == 0){
       startTime = millis();
-    }
-    if(startTime - millis() > 50){
-    this.y = this.y - 1; 
-    this.opacity = this.opacity +3;
-      if(opacity > 100){
+    } else if(millis() - startTime > 50){
+    this.y = this.y - 3; 
+    this.opacity = this.opacity -1;
+      if(opacity < 0){
         opacity = 100;
       }
     display();
     }
   }
   public boolean exploded(){
-    if(opacity == 100){
+    if(opacity == 0){
       return true;
     }else
       return false;

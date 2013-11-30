@@ -5,13 +5,13 @@ class BassGuitar implements Instrument{
   String chord3= "bass-3.wav";
   String chord4= "bass-4.wav";
   String chord5= "bass-5.wav";
-
+  String sound;
   // Methods
   // ----------------------------------------
   // Play the guitar with supplied distance parameter
   void playGuitar(float chord){
     // Select the chord to play
-     String sound = null;
+
      if(chord<=400 && chord>200){
       sound = chord1;
      }else if(chord<=550 && chord>400){
@@ -30,5 +30,9 @@ class BassGuitar implements Instrument{
     if(rec.isRecording==true){
       rec.recordInput(millis(), sound);
     }
+ }
+ 
+ String getSound(){
+  return sound;
  }
 }

@@ -7,6 +7,7 @@ class User {
  PVector LHand, RHand,Hip,Head;
  PVector LHand2D, RHand2D, Hip2D, Head2D;
  Instrument instrument;
+ buttonGroup btngrp;
  boolean prevPos, curPos; // For detecting crossing guitar string
  int lastPlayed;
  
@@ -57,6 +58,10 @@ class User {
  // Play the user's instrument
  void playInstrument() {
      // Should get any necessary information (joint distances) here
+ }
+ //set Button Group to a user
+ void setButtonGroup(buttonGroup bg){
+ btngrp = bg;
  }
  
  // Hand ID getters/setters
