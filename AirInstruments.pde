@@ -300,22 +300,10 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
     } else if (users[userID].getInstrument().equals("lead") || users[userID].getInstrument().equals("bass")) {
       // Try to play the guitar
       
-      // Create the vectors and fill them with data from kinect
-      PVector LHand = new PVector();
-      PVector RHand = new PVector();
-      PVector Hip = new PVector();
-      // We want to use the hand vector for the  dominant hand of that user
-      // And the corresponding hop
-      if (handId == users[userID].getLHandID()) {
-        // It's their left hand. Use hand vector for it
-        LHand = pos;
-        kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HAND, RHand);
-        kinect.getJointPositionSkeleton(userID, kinect.SKEL_LEFT_HIP, Hip);
-      } else {
-        kinect.getJointPositionSkeleton(userID, kinect.SKEL_LEFT_HAND, LHand);
-        RHand = pos;
-        kinect.getJointPositionSkeleton(userID, kinect.SKEL_RIGHT_HIP, Hip);
-      }
+      // Get the user's model data
+      PVector LHand = users[userID].LHand;
+      PVector RHand = users[userID].handPos; // Using the actual hand data for the right hand
+      PVector Hip = users[userID].Hip;
       
       // See what side of the string the hand is on
       users[userID].curPos = isOnTopOfLine(LHand.x, LHand.y, Hip.x, Hip.y, RHand.x, RHand.y);
