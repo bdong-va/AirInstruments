@@ -5,13 +5,12 @@ class LeadGuitar implements Instrument{
   String chord3= "lead-D.wav";
   String chord4= "lead-F.wav";
   String chord5= "lead-G.wav";
- 
+  String sound;
   // Methods
   // ----------------------------------------
   // Play the guitar with supplied distance parameter
   void playGuitar(float chord){
     // Select the chord to play
-     String sound = null;
      if(chord<=400 && chord>200){
       sound = chord1;
      }else if(chord<=550 && chord>400){
@@ -30,6 +29,10 @@ class LeadGuitar implements Instrument{
     if(rec.isRecording==true){
       rec.recordInput(millis(), sound);
     } 
+ }
+ 
+ String getSound(){
+  return sound;
  }
 }
 

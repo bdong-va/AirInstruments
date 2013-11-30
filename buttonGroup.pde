@@ -47,6 +47,8 @@ class buttonGroup{
   public void insertBubble(float x, float y, String s,color c){
   BubbleChord bc = new BubbleChord(x,y,s,c);
   bubbles.add(bc);
+
+  checkExplode();
   }
   
   public void drawCurrentButton(float x, float y){

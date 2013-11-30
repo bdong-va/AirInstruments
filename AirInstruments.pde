@@ -60,7 +60,7 @@ void setup()
   // Create Minim object
   minim = new Minim(this);
   // Create Metronome
-  mn = new Metronome(width/4,height*5/7, 300,30, 68, color(255, 204, 0));
+  mn = new Metronome(width,height*4, 300,30, 68, color(255, 204, 0));
   // enable depthMap and RGB generation from Kinect
   kinect.enableDepth();
   kinect.enableRGB();
@@ -144,6 +144,7 @@ void draw()
       
       //check button for if been clicked.
       btngrp[i].setUser(userList[i]);
+      users[userList[i]].setButtonGroup(btngrp[i]);
       PVector RHand = users[userList[i]].RHand;
       PVector RHand2D = users[userList[i]].RHand2D;
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
@@ -302,6 +303,8 @@ void onTrackedHand(SimpleOpenNI curContext,int handId,PVector pos)
         // Dev printing -- should probably indicate to user visually too
         // Play the guitar
         users[userID].instrument.playGuitar(chordPos);
+        //show the Chord Bubble
+        users[userID].btngrp.insertBubble(users[userID].RHand2D.x, users[userID].RHand2D.y, users[userID].instrument.getSound(), color(255,255,0));
         // Save this
         users[userID].prevPos = users[userID].curPos;
         // Record this as the time last played
