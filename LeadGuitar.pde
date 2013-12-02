@@ -1,10 +1,10 @@
 class LeadGuitar implements Instrument{
   
-  String chord1= "lead-A.wav";
-  String chord2= "lead-Bm.wav";
-  String chord3= "lead-D.wav";
-  String chord4= "lead-F.wav";
-  String chord5= "lead-G.wav";
+  String chord1= "lead-D.wav";
+  String chord2= "lead-G.wav";
+  String chord3= "lead-F.wav";
+  String chord4= "lead-Am.wav";
+  String chord5= "lead-C.wav";
   String sound;
   // Methods
   // ----------------------------------------
