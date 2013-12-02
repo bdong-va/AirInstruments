@@ -61,6 +61,11 @@ void setup()
   minim = new Minim(this);
   // Create Metronome
   mn = new Metronome(width,height*4, 300,30, 68, color(255, 204, 0));
+  
+  // Inherit the size of the RGB image
+  //size(kinect.rgbWidth(), kinect.rgbHeight(), P3D);
+  size(640,480, P3D);
+  
   // enable depthMap and RGB generation from Kinect
   kinect.enableDepth();
   kinect.enableRGB();
@@ -76,10 +81,6 @@ void setup()
   // Enable hand tracking and start the wave gesture
   kinect.enableHand();
   kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
-  
-  // Inherit the size of the RGB image
-  //size(kinect.rgbWidth(), kinect.rgbHeight());
-  size(640,480);
   
   // Prepare graphics
   background(200,0,0);
@@ -123,14 +124,7 @@ void draw()
         kinect.convertRealWorldToProjective(handPos,handPos);
         ellipse(handPos.x, handPos.y, 10, 10);
       }
-  
-      // Draw guitar
-      PVector LHand = users[userList[i]].LHand;
-      PVector Hip = users[userList[i]].Hip;
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
-      kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
-      float chord = Hip.dist(LHand);
-      
+     
       // Draw button for each user
       PVector Head = users[userList[i]].Head;
       PVector Head2D = users[userList[i]].Head2D;
@@ -151,6 +145,13 @@ void draw()
       kinect.convertRealWorldToProjective(users[userList[i]].RHand, RHand2D);
       btngrp[i].checkCurrentButton((int)RHand2D.x,(int)RHand2D.y);      
       
+      // Draw guitar
+      PVector LHand = users[userList[i]].LHand;
+      PVector Hip = users[userList[i]].Hip;
+      // Dont need to read joint info here anymore
+      //kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_LEFT_HAND, LHand);
+      //kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HIP, Hip);
+      float chord = Hip.dist(LHand);
       
       // Adjust the weight of the string depending on its length
       if(chord<=400 && chord>200){
@@ -170,7 +171,39 @@ void draw()
       } else {
         stroke(0, 0, 0);
       }
-      kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
+      
+      // Old method using limb
+      //kinect.drawLimb(userList[i], SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_LEFT_HAND);
+      
+      // New guitar drawing method using vectors
+      // Get the unit vector from hip to left hand
+      PVector unit = new PVector(); 
+      unit = PVector.lerp(Hip, LHand, 1000/chord); 
+      unit.normalize(); 
+      // Scale the vector to a constant length 
+      PVector guitar = new PVector(); 
+      guitar = PVector.mult(unit, 10000.0); 
+      // Add this vector to the hip to get the tip
+      PVector tip = new PVector(); 
+      tip = PVector.add(Hip, guitar); 
+      kinect.convertRealWorldToProjective(Hip, Hip);
+      kinect.convertRealWorldToProjective(tip, tip);
+      line(Hip.x, Hip.y, tip.x, tip.y);
+      
+      // Choose the chord and display it at the tip of the chord
+      String chordName = null;
+      if(chord<=400 && chord>200){
+        chordName = "D";
+      }else if(chord<=550 && chord>400){
+        chordName = "G";
+      }else if(chord<=700 && chord>550){
+        chordName = "F";
+      }else if(chord<=850 && chord>700){
+        chordName = "Am";
+      }else if(chord>850){
+        chordName = "C";
+      }
+      text(chordName, tip.x, tip.y);
     }      
   }    
   
@@ -241,18 +274,22 @@ void onVisibleUser(SimpleOpenNI curContext, int userId)
   PVector Head2D = new PVector();
   
   if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_LEFT_HAND, LHand) != 0.0) {
+    users[userId].LHand = LHand;
     kinect.convertRealWorldToProjective(LHand, LHand2D);
     users[userId].LHand2D = LHand2D;
   }
   if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_RIGHT_HAND, RHand) != 0.0) {
+    users[userId].RHand = RHand;
     kinect.convertRealWorldToProjective(RHand, RHand2D);
     users[userId].RHand2D = RHand2D;
   }
   if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_RIGHT_HIP, Hip) != 0.0) {
+    users[userId].Hip = Hip;
     kinect.convertRealWorldToProjective(Hip, Hip2D);
     users[userId].Hip2D = Hip2D;
   }
   if (kinect.getJointPositionSkeleton(userId, kinect.SKEL_HEAD, Head) != 0.0) {
+    users[userId].Head = Head;
     kinect.convertRealWorldToProjective(Head, Head2D);
     users[userId].Head2D = Head2D;
   }
