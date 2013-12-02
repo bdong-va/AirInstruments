@@ -65,7 +65,6 @@ String bigTickSound= "bigtick.wav";
     float beatScale = 1/beatNum;
     noFill();
     rect(x,y,w,h,h/8,h/2,h/2,h/8);
-    
     //draw the process bar
     for(int i = 0; i<beatNum; i++){
     noFill();

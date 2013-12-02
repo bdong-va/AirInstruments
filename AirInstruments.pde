@@ -60,7 +60,7 @@ void setup()
   // Create Minim object
   minim = new Minim(this);
   // Create Metronome
-  mn = new Metronome(width,height*4, 300,30, 68, color(255, 204, 0));
+  mn = new Metronome(width/5,height*7/8, 300,30, 68, color(255, 204, 0));
   
   // Inherit the size of the RGB image
   //size(kinect.rgbWidth(), kinect.rgbHeight(), P3D);
@@ -191,7 +191,7 @@ void draw()
       line(Hip.x, Hip.y, tip.x, tip.y);
       
       // Choose the chord and display it at the tip of the chord
-      String chordName = null;
+      String chordName = " ";
       if(chord<=400 && chord>200){
         chordName = "D";
       }else if(chord<=550 && chord>400){
@@ -203,10 +203,12 @@ void draw()
       }else if(chord>850){
         chordName = "C";
       }
+      fill(255, 255, 0);
       text(chordName, tip.x, tip.y);
     }      
   }    
   
+
   //update the Metronome
   strokeWeight(4);
   stroke(0, 0, 0);
