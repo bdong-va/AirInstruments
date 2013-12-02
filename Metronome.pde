@@ -2,9 +2,12 @@ class Metronome{
 int BPM;
 color c;
 float x,y,w,h;
-float counter;
+int counter;
 float scale;
 float beatNum;
+String tickSound= "tick.wav";
+String bigTickSound= "bigtick.wav";
+
   public Metronome(float x, float y, float w, float h, int beat, color c){
     this.x = x;
     this.y = y;
@@ -12,6 +15,7 @@ float beatNum;
     this.h = h;
     this.c = c;
     this.BPM = beat;
+    this.counter = 1;
     beatNum = 4;
     scale = 0.0;
   }
@@ -24,12 +28,34 @@ float beatNum;
   //rescale the position of Metronome's pointer.
   public void reScale(float time){
     float newScale = calcScale(time);
-    // If the new scale is less than the old scale, reset the player index
+    // Logic for playing the metronome sound
+    if (rec.isRecording) {
+      if ( counter == 1 ) {
+        audio = minim.loadFile(bigTickSound,512);
+        audio.play();
+        counter++;
+      } else if ( counter == 2 && newScale > 1/beatNum * 1) {
+        audio = minim.loadFile(tickSound,512);
+        audio.play();
+        counter++;
+      } else if ( counter == 3 && newScale > 1/beatNum * 2) {
+        audio = minim.loadFile(tickSound,512);
+        audio.play();
+        counter++;
+      } else if ( counter == 4 && newScale > 1/beatNum * 3) {
+        audio = minim.loadFile(tickSound,512);
+        audio.play();
+        counter++;
+      }
+    }
+    // If the new scale is less than the old scale, reset the player index and beat counter
     if ( newScale < scale) {
       player.index = 0;
+      counter = 1;
     }
     scale = newScale;
   }
+  
   public void display(){
     //change the position of pointer.
     // Moved this line to the Player thread
