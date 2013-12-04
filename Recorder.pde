@@ -81,9 +81,9 @@ class Recorder {
     // Create the soundTime
     SoundTime newSoundTime = new SoundTime(thisScale, inSound);
     // Add it to the list
-    soundTimes.add(newSoundTime);
+    tempSoundTimes.add(newSoundTime);
     // Sort the list
-    Collections.sort(soundTimes);
+    Collections.sort(tempSoundTimes);
    
   }
   
