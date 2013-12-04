@@ -50,12 +50,7 @@ String bigTickSound= "bigtick.wav";
     }
     // If the new scale is less than the old scale, reset the player index and beat counter
     if ( newScale < scale) {
-      player.index = 0;
-      counter = 1;
-      // If we are recording, we should save the recording since we have looped
-      if (rec.isRecording) {
-        rec.saveRecording();
-      }
+      doLoop();
     }
     scale = newScale;
   }
@@ -90,4 +85,15 @@ String bigTickSound= "bigtick.wav";
   BPM = beat;
   }
   
+  // Do loop logic
+  public void doLoop() {
+      // Reset the player pointer
+      player.index = 0;
+      // Set the beat counter back to 1
+      counter = 1;
+      // If we are recording, we should save the recording since we have looped
+      if (rec.isRecording) {
+        rec.saveRecording();
+      }
+  }
 }

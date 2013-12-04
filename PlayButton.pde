@@ -6,12 +6,21 @@ class PlayButton extends floatingButton{
   }
   
   public void invoke(){
-    if(rec.isPlaying==true){
-    rec.stopPlaying();
-    content = "Play";
+    if(rec.isPlaying){
+      // If we are already playing, but not recording, just stop
+      // else, stop playing and recording and save the recording
+      if (!rec.isRecording) {
+        rec.stopPlaying();
+      } else {
+        rec.stopPlaying();
+        rec.stopRecording();
+        rec.saveRecording();
+      }
+      content = "Play";
     }else{
-    rec.startPlaying();
-    content = "StopPlay";
+      // If we are not playing, just start playing
+      rec.startPlaying();
+      content = "StopPlay";
     }
   }
 }
