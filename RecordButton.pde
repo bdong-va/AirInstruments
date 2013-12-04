@@ -7,11 +7,11 @@ class RecordButton extends floatingButton{
   
   public void invoke(){
     if(rec.isRecording==true){
-    rec.stopRecording();
-    content = "Record";
+      rec.stopRecording();
+      content = "Record";
     }else{
-    rec.startRecording();
-    content = "StopRec";
+      rec.startRecording();
+      content = "StopRec";
     }
   }
 }
