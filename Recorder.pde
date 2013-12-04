@@ -31,6 +31,7 @@ class Recorder {
     isQuantizing = true;
     factor = 2;
     soundTimes = new ArrayList<SoundTime>();
+    tempSoundTimes = new ArrayList<SoundTime>();
   }
   
   /*
