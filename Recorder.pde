@@ -17,6 +17,9 @@ class Recorder {
   // Data structure for storing notes/time
   ArrayList<SoundTime> soundTimes;
   
+  // Data structure for storing notes/time
+  ArrayList<SoundTime> tempSoundTimes;
+  
   // Depends upon BPM from Metronome
   
   /*
@@ -82,6 +85,23 @@ class Recorder {
     // Sort the list
     Collections.sort(soundTimes);
    
+  }
+  
+  // Save the temporary sound times to the saved sound times; clear the temporary
+  public void saveRecording() {
+    // Copy each temporary soundtime over to the saved set
+    tempSaveSize = tempSoundTimes.size();
+    for (int i = 0; i < tempSaveSize; i++) {
+      soundTimes.add(tempSoundTimes.get(i));
+    }
+    // Clear the temporary and sort the saved
+    tempSoundTimes.clear();
+    Collections.sort(soundTimes);
+  }
+  
+  public void clearRecording() {
+    tempSoundTimes.clear();
+    soundTimes.clear();
   }
   
 }
