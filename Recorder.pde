@@ -99,9 +99,16 @@ class Recorder {
     Collections.sort(soundTimes);
   }
   
+  // Clear all of the recordings
   public void clearRecording() {
     tempSoundTimes.clear();
     soundTimes.clear();
   }
+  
+  // Cancel the recording, clearing just the temporary recoridng
+  public void cancelRecording() {
+    tempSoundTimes.clear();
+  }
+    
   
 }

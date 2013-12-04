@@ -52,6 +52,10 @@ String bigTickSound= "bigtick.wav";
     if ( newScale < scale) {
       player.index = 0;
       counter = 1;
+      // If we are recording, we should save the recording since we have looped
+      if (rec.isRecording) {
+        rec.saveRecording();
+      }
     }
     scale = newScale;
   }
