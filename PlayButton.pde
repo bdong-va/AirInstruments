@@ -30,6 +30,7 @@ class PlayButton extends Button{
     //TODO change thick and color of text
     textAlign(CENTER);
     textSize(26);
+    content = (rec.isPlaying) ? "StopPlay" : "Play";
     text(content, coordx,coordy+5);
   }
 }

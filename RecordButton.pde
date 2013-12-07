@@ -25,6 +25,7 @@ class RecordButton extends Button{
     //TODO change thick and color of text
     textAlign(CENTER);
     textSize(26);
+    content = (rec.isRecording) ? "cancelRec" : "Record";
     text(content, coordx,coordy+5);
   }
 }
