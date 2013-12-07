@@ -1,4 +1,4 @@
-class instrumentChoose extends floatingButton {
+class instrumentChoose extends Button {
   int instrumentNumber = 2;
   int currentInstrument = 0;
   String[] instrumentList = new String[instrumentNumber];

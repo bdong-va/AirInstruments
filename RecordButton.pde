@@ -1,4 +1,4 @@
-class RecordButton extends floatingButton{
+class RecordButton extends Button{
   //Recorder rec;
   public RecordButton(int x, int y, int d, String s, Recorder rec){
     super(x, y, d, s);

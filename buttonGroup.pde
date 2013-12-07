@@ -1,7 +1,7 @@
 class buttonGroup{
   int userID;
-  floatingButton[] currentButtons;
-  floatingButton[] buttons;
+  Button[] currentButtons;
+  Button[] buttons;
   ArrayList<BubbleChord> bubbles;
   
   int groupHeight =50;
@@ -9,14 +9,14 @@ class buttonGroup{
   
   public buttonGroup(){
     userID = 0;
-    currentButtons = new floatingButton[3];
-    buttons  = new floatingButton[5];
+    currentButtons = new Button[3];
+    buttons  = new Button[5];
     bubbles = new ArrayList<BubbleChord>();
     groupHeight = 50;
     ButtonRadius = 40;
     //set empty buttons, prevent null pointer.(I hate null pointer!)
     for(int i = 0; i<buttons.length; i++){
-      buttons[i] = new floatingButton(0,0,ButtonRadius, "Test");   
+      buttons[i] = new Button(0,0,ButtonRadius, "Test");   
     }
     for(int i = 0; i<currentButtons.length;i++){
       this.setCurrentButton(i,i);
@@ -24,7 +24,7 @@ class buttonGroup{
   }
   
   //put a Button into buttons array.
-  public void setButton(int order, floatingButton fb){
+  public void setButton(int order, Button fb){
     if (order>buttons.length){
       //TODO add throw/catch
       println("setButton in buttonGroup does not works well.");

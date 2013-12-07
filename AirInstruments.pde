@@ -44,9 +44,9 @@ void setup()
   
   //set btngrputton group for users.
   for(int i=0;i<4;i++){
-   floatingButton btn = new instrumentChoose(0,0,40,InstrumentList);
-   floatingButton playbtn = new PlayButton(0,0,40,"Play", rec);
-   floatingButton recordbtn = new RecordButton(0,0,40,"Record", rec);
+   Button btn = new instrumentChoose(0,0,40,InstrumentList);
+   Button playbtn = new PlayButton(0,0,40,"Play", rec);
+   Button recordbtn = new RecordButton(0,0,40,"Record", rec);
    
     btngrp[i] = new buttonGroup();
     btngrp[i].setButton(0, btn);

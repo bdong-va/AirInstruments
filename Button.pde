@@ -1,4 +1,4 @@
-class floatingButton {
+class Button {
   int coordx;
   int coordy;
   buttonGroup buttonGroup;
@@ -8,7 +8,7 @@ class floatingButton {
   float innerCircleR;
   int timer;
   //constructor
-  public floatingButton(int x, int y, int r, String s){
+  public Button(int x, int y, int r, String s){
       coordx = x;
       coordy = y;
       radius = r;
