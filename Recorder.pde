@@ -9,6 +9,7 @@ class Recorder {
   // State of recording/playing/quantizing
   public boolean isRecording;
   public boolean isPlaying;
+  public boolean isRecorded;
   boolean isQuantizing;
   // Quantization factor
   // 1 means quantization to beats, 2 means to half beats, 4 to quarter, etc...
@@ -28,6 +29,7 @@ class Recorder {
   public Recorder() {
     isRecording = false;
     isPlaying = false;
+    isRecorded = false;
     isQuantizing = true;
     factor = 2;
     soundTimes = new ArrayList<SoundTime>();
@@ -56,6 +58,10 @@ class Recorder {
   // Stop playing
   public void stopPlaying() {
     isPlaying = false;
+  }
+  //check if there is any content be recorded.
+  public boolean isRecordedSomething() {
+    return isRecorded;
   }
   
   // Quantize Input
@@ -98,12 +104,14 @@ class Recorder {
     // Clear the temporary and sort the saved
     tempSoundTimes.clear();
     Collections.sort(soundTimes);
+    isRecorded = true;
   }
   
   // Clear all of the recordings
   public void clearRecording() {
     tempSoundTimes.clear();
     soundTimes.clear();
+    isRecorded = false;
   }
   
   // Cancel the recording, clearing just the temporary recoridng
