@@ -47,15 +47,17 @@ void setup()
    Button btn = new instrumentChoose(0,0,40,InstrumentList);
    Button playbtn = new PlayButton(0,0,40,"Play", rec);
    Button recordbtn = new RecordButton(0,0,40,"Record", rec);
-   
+   Button clearbtn = new ClearButton(0,0,40," ", rec);
     btngrp[i] = new buttonGroup();
     btngrp[i].setButton(0, btn);
     btngrp[i].setButton(1, playbtn);
     btngrp[i].setButton(2, recordbtn);
-     
+    btngrp[i].setButton(3, clearbtn);
+
     btngrp[i].setCurrentButton(0,0);
     btngrp[i].setCurrentButton(1,1);
     btngrp[i].setCurrentButton(2,2);
+    btngrp[i].setCurrentButton(3,3);
   }
   // Create Minim object
   minim = new Minim(this);

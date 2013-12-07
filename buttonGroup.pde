@@ -9,7 +9,7 @@ class buttonGroup{
   
   public buttonGroup(){
     userID = 0;
-    currentButtons = new Button[3];
+    currentButtons = new Button[4];
     buttons  = new Button[5];
     bubbles = new ArrayList<BubbleChord>();
     groupHeight = 50;
