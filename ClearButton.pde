@@ -15,12 +15,16 @@ class ClearButton extends Button{
   }
   
   public void display(){
-    super.display();
+    
     //display text about button.
     //TODO change thick and color of text
     textAlign(CENTER);
     textSize(26);
     content = (rec.isRecorded) ? "Clear" : " ";
-    text(content, coordx,coordy+5);
+    if(rec.isRecorded){
+      super.display();
+      text(content, coordx,coordy+5);
+    }
+    
   }
 }
