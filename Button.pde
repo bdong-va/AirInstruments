@@ -34,13 +34,7 @@ class Button {
       //draw two cricles
       strokeWeight(3);
       ellipse(coordx,coordy,radius*2,radius*2);
-      ellipse(coordx,coordy,innerCircleR*2,innerCircleR*2);
-      //display text about button.
-      //TODO change thick and color of text
-      textAlign(CENTER);
-      textSize(26);
-      text(content, coordx,coordy+5);
-      
+      ellipse(coordx,coordy,innerCircleR*2,innerCircleR*2);  
   }
   //check if this button is being touched, if do, count for 3 sec and proceed function.
   void isTouched(int x, int y){
