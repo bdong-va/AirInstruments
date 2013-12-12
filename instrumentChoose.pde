@@ -27,6 +27,7 @@ class instrumentChoose extends Button {
     //TODO change thick and color of text
     textAlign(CENTER);
     textSize(26);
+    stroke(0,0,0);
     text(content, coordx,coordy+5);
   }
 }

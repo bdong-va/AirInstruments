@@ -14,8 +14,9 @@ float startTime;
     startTime = 0;
   }
   public void display(){
-    fill(c,opacity);
+    stroke(c,opacity);
     text(content, x, y);
+    noFill();
 
   }
   public void bubble(){

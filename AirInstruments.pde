@@ -126,6 +126,7 @@ void draw()
         kinect.convertRealWorldToProjective(handPos,handPos);
         ellipse(handPos.x, handPos.y, 10, 10);
       }else {
+        stroke(0,0,0);
         text("Wave Your Right Hand To Start!", users[userList[i]].RHand2D.x,users[userList[i]].RHand2D.y);
       }
      
@@ -147,7 +148,8 @@ void draw()
       PVector RHand2D = users[userList[i]].RHand2D;
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       kinect.convertRealWorldToProjective(users[userList[i]].RHand, RHand2D);
-      btngrp[i].checkCurrentButton((int)RHand2D.x,(int)RHand2D.y);      
+      btngrp[i].checkCurrentButton((int)RHand2D.x,(int)RHand2D.y);   
+      println(btngrp[i].bubbles.size());   
       
       // Draw guitar
       PVector LHand = users[userList[i]].LHand;
