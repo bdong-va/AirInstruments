@@ -126,8 +126,9 @@ void draw()
         kinect.convertRealWorldToProjective(handPos,handPos);
         ellipse(handPos.x, handPos.y, 10, 10);
       }else {
-        stroke(0,0,0);
+        fill(0,0,0);
         text("Wave Your Right Hand To Start!", users[userList[i]].RHand2D.x,users[userList[i]].RHand2D.y);
+        noFill();
       }
      
       // Draw button for each user
