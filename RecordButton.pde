@@ -23,9 +23,23 @@ class RecordButton extends Button{
     super.display();
     //display text about button.
     //TODO change thick and color of text
-    textAlign(CENTER);
-    textSize(26);
-    content = (rec.isRecording) ? "cancelRec" : "Record";
-    text(content, coordx,coordy+5);
+    
+//    content = (rec.isRecording) ? "cancelRec" : "Record";
+//    text(content, coordx,coordy+5);
+    if (rec.isRecording) {
+      // Draw cancel button
+      textAlign(CENTER);
+      textSize(26);
+      stroke(255, 0, 0);
+      text("X", coordx, coordy+5);
+    } else {
+      // Draw record button
+      strokeWeight(5);
+      stroke(0, 0, 0);
+      fill(255, 0, 0);
+      ellipse(coordx, coordy, radius/1.2, radius/1.2);
+      
+    }
+    
   }
 }
