@@ -98,6 +98,9 @@ class Recorder {
   public void saveRecording() {
     // Copy each temporary soundtime over to the saved set
     int tempSaveSize = tempSoundTimes.size();
+    if(tempSaveSize == 0){
+      return;
+    }
     for (int i = 0; i < tempSaveSize; i++) {
       soundTimes.add(tempSoundTimes.get(i));
     }
