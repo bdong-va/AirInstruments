@@ -6,6 +6,7 @@ class RecordButton extends Button{
   }
   
   public void invoke(){
+    super.invoke();
     if(rec.isRecording==true){
       // If we are recording, stop recording and cancel it
       rec.stopRecording();
@@ -28,16 +29,26 @@ class RecordButton extends Button{
 //    text(content, coordx,coordy+5);
     if (rec.isRecording) {
       // Draw cancel button
-      textAlign(CENTER);
-      textSize(26);
-      stroke(255, 0, 0);
-      text("X", coordx, coordy+5);
+      float x1 = coordx - radius/2;
+      float y1 = coordy - radius/2;
+      float x2 = coordx - radius/2;
+      float y2 = coordy + radius/2;
+      float x3 = coordx + radius/2;
+      float y3 = coordy - radius/2;
+      float x4 = coordx + radius/2;
+      float y4 = coordy + radius/2;
+      
+      // Draw an "X" on the button. 
+      strokeWeight(5);
+      stroke(0, 0, 0);
+      line(x1,y1,x4,y4);
+      line(x2,y2,x3,y3);
     } else {
       // Draw record button
       strokeWeight(5);
       stroke(0, 0, 0);
       fill(255, 0, 0);
-      ellipse(coordx, coordy, radius/1.2, radius/1.2);
+      ellipse(coordx, coordy, radius, radius);
       
     }
     

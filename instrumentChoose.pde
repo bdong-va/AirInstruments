@@ -11,6 +11,7 @@ class instrumentChoose extends Button {
   }
   
   public void invoke(){
+    super.invoke();
     if(currentInstrument<instrumentNumber-1){
       currentInstrument++;
     }else{

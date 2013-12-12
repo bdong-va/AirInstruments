@@ -6,6 +6,7 @@ class ClearButton extends Button{
   }
   
   public void invoke(){
+    super.invoke();
     if(rec.isRecordedSomething()){
       //reset the Recorder. 
       rec.stopPlaying();
@@ -20,6 +21,7 @@ class ClearButton extends Button{
     //TODO change thick and color of text
     textAlign(CENTER);
     textSize(26);
+    stroke(0,0,0);
     content = (rec.isRecorded) ? "Clear" : " ";
     if(rec.isRecorded){
       super.display();

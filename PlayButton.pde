@@ -6,6 +6,7 @@ class PlayButton extends Button{
   }
   
   public void invoke(){
+    super.invoke();
     if(rec.isPlaying){
       // If we are already playing, but not recording, just stop
       // else, stop playing and recording and save the recording
@@ -28,9 +29,24 @@ class PlayButton extends Button{
     super.display();
     //display text about button.
     //TODO change thick and color of text
-    textAlign(CENTER);
-    textSize(26);
-    content = (rec.isPlaying) ? "StopPlay" : "Play";
-    text(content, coordx,coordy+5);
+//    textAlign(CENTER);
+//    textSize(26);
+//    content = () ? "StopPlay" : "Play";
+//    text(content, coordx,coordy+5);
+    float x1 = coordx - radius/2;
+    float y1 = coordy - radius/2;
+    float x2 = coordx - radius/2;
+    float y2 = coordy + radius/2;
+    float x3 = coordx + radius/2;
+    float y3 = coordy;
+    stroke(0,0,0);
+    if (rec.isPlaying){
+      fill(255,0,0);
+      rect(x1,y1, radius, radius);
+    }else{  
+      fill(0,255,0);   
+      triangle(x1,y1,x2,y2,x3,y3);      
+    }
+    noFill();
   }
 }

@@ -54,7 +54,7 @@ class buttonGroup{
   public void drawCurrentButton(float x, float y){
      for(int i = 0; i<currentButtons.length;i++){
        //println("i="+i+"; x="+x+"; y="+y+". ");
-        currentButtons[i].setPosition((int)(x+3*ButtonRadius*i),(int)(y-groupHeight+(groupHeight*i)/2));
+        currentButtons[i].setPosition((int)(x+2*ButtonRadius*i),(int)(y-groupHeight+(groupHeight*i)/2));
         currentButtons[i].display();
      }
      bubble();
