@@ -150,7 +150,7 @@ void draw()
       kinect.getJointPositionSkeleton(userList[i], kinect.SKEL_RIGHT_HAND, RHand);
       kinect.convertRealWorldToProjective(users[userList[i]].RHand, RHand2D);
       btngrp[i].checkCurrentButton((int)RHand2D.x,(int)RHand2D.y);   
-      println(btngrp[i].bubbles.size());   
+//      println(btngrp[i].bubbles.size());   
       
       // Draw guitar
       PVector LHand = users[userList[i]].LHand;

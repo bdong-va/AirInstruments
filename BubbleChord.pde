@@ -14,10 +14,10 @@ float startTime;
     startTime = 0;
   }
   public void display(){
-    stroke(c,opacity);
+    fill(c,opacity);
     text(content, x, y);
     noFill();
-
+ 
   }
   public void bubble(){
     if(startTime == 0){
